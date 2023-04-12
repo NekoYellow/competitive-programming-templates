@@ -65,6 +65,7 @@ class Heap():
       
 
 if __name__ == '__main__':
+    # test
     a = [1, 4, 2, 8, 5, 7]
     pq = Heap(ismax=False)
     for e in a:
