@@ -62,3 +62,10 @@ class BST:
 
     def __str__(self):
         return str(self.inorder())
+
+
+if __name__ == '__main__':
+    # test
+    bst = BST([1,4,2,8,5,7])
+    print(bst.min(), bst.max())
+    print(bst)
