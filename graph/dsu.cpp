@@ -3,17 +3,13 @@
 using namespace std;
 
 // dsu, also known as union-find
-const int N = 2e5+10;
-
-int par[N];
-int nv[N], ne[N];
-int nset;
-
+vector<int> par, nv, ne; // parent, number of vertices, number of edges
+int nset; // nunber of sets (clusters)
 void init(int n) {
-    for (int i = 0; i < n; i++) {
-        par[i] = i;
-        nv[i] = 1; ne[i] = 0;
-    }
+    par.resize(n); nv.resize(n); ne.resize(n);
+    iota(par.begin(), par.end(), 0); // let r[i] = i forall i
+    fill(nv.begin(), nv.end(), 1);
+    fill(ne.begin(), ne.end(), 0);
     nset = n;
 }
 int find(int x) {
