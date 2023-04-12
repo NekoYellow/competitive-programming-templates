@@ -1,4 +1,5 @@
-/*  Edmonds-Karp : O(VE^2) */
+/* Edmonds-Karp : O(VE^2) */
+/* Cannot remember the origin problem, so the correctness is unknown */
 #include <bits/stdc++.h>
 using namespace std;
 
