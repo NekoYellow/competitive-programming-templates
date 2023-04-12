@@ -86,5 +86,5 @@ if __name__ == '__main__':
     len(dll)
     dll.delete(1)
     print(dll)
-  dll.insert(1)
-  print(dll)
+    dll.insert(1)
+    print(dll)
