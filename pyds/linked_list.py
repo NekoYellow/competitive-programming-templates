@@ -78,13 +78,13 @@ class DoublyLinkedList(LinkedList):
 
 
 if __name__ == '__main__':
-  # testing
-  dll = DoublyLinkedList()
-  dll.insert(1)
-  dll.insert(2)
-  print(dll)
-  len(dll)
-  dll.delete(1)
-  print(dll)
+    # testing
+    dll = DoublyLinkedList()
+    dll.insert(1)
+    dll.insert(2)
+    print(dll)
+    len(dll)
+    dll.delete(1)
+    print(dll)
   dll.insert(1)
   print(dll)
