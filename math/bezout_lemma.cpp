@@ -22,7 +22,7 @@ int main() {
             else f[d] = min(f[d], cost + c[i]);
         }
     }
-    if(!f.count(1)) f[1] = -1;
+    if(!f.count(1)) f[1] = -1; // 1 is not reachable
     cout << f[1] << '\n';
     return 0;
 }
