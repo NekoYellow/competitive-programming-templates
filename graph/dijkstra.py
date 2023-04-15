@@ -1,5 +1,6 @@
 from math import inf
 from heapq import heappush, heappop
+from typing import List
 
 class Graph:
     def __init__(self, n: int, edges: List[List[int]]):
