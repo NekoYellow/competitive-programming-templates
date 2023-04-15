@@ -18,7 +18,9 @@ class Graph:
         dist[src] = 0
         pq = [(dist[src], src)] # min heap
         while pq: # span a shortest-path tree from src
-            _, u = heappop(pq) # vertex with the min dist in tree
+            du, u = heappop(pq) # u:= vertex with the min dist (du) in tree
+            if du > dist[u]: continue
+            if u == dst: return du
             for v in range(self.n):
                 if not self.G[u][v]: continue # no edge from u to v
                 if dist[u] + self.G[u][v] < dist[v]: # shorter path found
