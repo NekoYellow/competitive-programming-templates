@@ -13,9 +13,8 @@ class Graph:
         self.G[u][v] = w
 
     def dijkstra(self, src: int, dst: int) -> int:
-        """Return distance of the shortest path from source `src` to destination `dst`.
-        """
-        dist = [inf] * self.n # dist[u]:= distance of the shortest path from src src to u
+        "Return distance of the shortest path from `src` to `dst`."
+        dist = [inf] * self.n # dist[u]:= distance of the shortest path from src to u
         dist[src] = 0
         pq = [(dist[src], src)] # min heap
         while pq: # span a shortest-path tree from src
