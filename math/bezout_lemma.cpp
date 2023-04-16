@@ -1,7 +1,6 @@
-/* Codeforces 510D */
-/* Bezout's Lemma + Bag DP */
-/* Bezout's Lemma: for integers a,b (ab!=0) exist x,y so that ax+by=gcd(a,b). */
-/* => when gcd(a,b)=1, exist x,y : ax+by=1. */
+/* Codeforces 510D Bezout's Lemma + Bag DP
+Bezout's Lemma: for integers a,b (ab!=0) exist x,y so that ax+by=gcd(a,b).
+=> when gcd(a,b)=1, exist x,y : ax+by=1. */
 #include <bits/stdc++.h>
 using namespace std;
 
