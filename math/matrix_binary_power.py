@@ -2,7 +2,7 @@
 
 MOD = int(1e9+7)
 
-def I(n: int):
+def I(n):
     return [[1 if j==i else 0 for j in range(n)] for i in range(n)]
 
 def mat_mul(A, B):
