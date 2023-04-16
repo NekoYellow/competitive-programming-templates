@@ -1,5 +1,6 @@
-/* Problem of the 2nd oop homework... */
-/* Calculate 1!+2!+...+n! for some n. */
+/* Problem of the 2nd oop homework...
+Calculate 1!+2!+...+n! for some n.
+*/
 #include <iostream>
 #include <string>
 #include <vector>
