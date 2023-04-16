@@ -1,4 +1,6 @@
-/* LOJ$2605 solve ax = 1 (mod b) */
+/* LOJ$2605
+Solve ax = 1 (mod b).
+*/
 #include <bits/stdc++.h>
 using namespace std;
 
