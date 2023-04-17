@@ -22,7 +22,7 @@ ll exgcd(ll a, ll b, ll &x, ll &y) {
 }
 
 ll crt(const vector<ll> &a, const vector<ll> &r) {
-    int k = a.size()-1; // a.size()-1 == r.size()-1 == k (number of equations)
+    int k = a.size()-1; // number of equations
     ll n = 1, ans = 0;
     for (int i = 1; i <= k; i++) n *= r[i];
     for (int i = 1; i <= k; i++) {
@@ -36,9 +36,6 @@ ll crt(const vector<ll> &a, const vector<ll> &r) {
 signed main() {
     ios::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    #ifndef ONLINE_JUDGE
-    freopen("in.txt", "r", stdin);
-    #endif
     int n;
     cin >> n;
     vector<ll> a(n+1), r(n+1);
