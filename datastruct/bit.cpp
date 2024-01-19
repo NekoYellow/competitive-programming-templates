@@ -1,3 +1,4 @@
+// https://codeforces.com/gym/102800/problem/M
 /* The 14th Jilin Provincial Collegiate Programming Contest, Problem M.
    Solve queries on array to return the xor sum of elements having even
    occurences in a[l..r].

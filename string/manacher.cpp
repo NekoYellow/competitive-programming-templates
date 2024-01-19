@@ -1,4 +1,5 @@
-/* Luogu-P3805 Find the length of the longest palindrome in a string. */
+// https://www.luogu.com.cn/problem/P3805
+/* Find the length of the longest palindrome in a string. */
 #include <bits/stdc++.h>
 using namespace std;
 const int N = 3e7+10;

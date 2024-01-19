@@ -1,4 +1,5 @@
-/* Luogu-P5829 KMP + LCA */
+// https://www.luogu.com.cn/problem/P5829
+/* KMP + LCA */
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;

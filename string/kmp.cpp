@@ -1,4 +1,4 @@
-/* Luogu-P3375 */
+// https://www.luogu.com.cn/problem/P3375
 #include <bits/stdc++.h>
 using namespace std;
 const int N = 1e6+10;

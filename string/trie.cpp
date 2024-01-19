@@ -1,4 +1,4 @@
-/* Luogu-P2580 */
+// https://www.luogu.com.cn/problem/P2580
 #include <bits/stdc++.h>
 using namespace std;
 const int N = 1e6+10, R = 26;

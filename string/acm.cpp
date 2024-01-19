@@ -1,4 +1,5 @@
-/* Luogu-P5357 The ac automaton (kmp on trie) */
+// https://www.luogu.com.cn/problem/P5357
+/* ac automaton (kmp on trie) */
 /* Given a set of pattern strings and a text string, find number of occurences of each pattern in the text. */
 #include <bits/stdc++.h>
 using namespace std;

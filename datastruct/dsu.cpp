@@ -1,4 +1,4 @@
-/* atcoder abc293D */
+// https://atcoder.jp/contests/abc293/tasks/abc293_d
 #include <bits/stdc++.h>
 using namespace std;
 

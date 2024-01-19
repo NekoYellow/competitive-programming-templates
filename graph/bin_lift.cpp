@@ -24,7 +24,7 @@ int main() {
 
     auto dfs = [&](auto self, int u, int p)->void {
         anc[u][0] = p;
-        dep[u] = ~p ? dep[p]+1 : 0;
+        dep[u] = dep[p]+1;
         for (int i = 1; i < B; i++) {
             if (anc[u][i-1] == -1) break;
             anc[u][i] = anc[anc[u][i-1]][i-1];
@@ -35,7 +35,7 @@ int main() {
         }
     };
 
-    dfs(dfs, s, -1);
+    dfs(dfs, s, s);
 
     auto lca = [&](int u, int v) {
         if (dep[u] > dep[v]) swap(u, v);

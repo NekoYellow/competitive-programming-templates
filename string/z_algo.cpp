@@ -1,4 +1,4 @@
-/* Luogu-P5410 */
+// https://www.luogu.com.cn/problem/P5410
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;

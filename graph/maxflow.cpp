@@ -1,4 +1,4 @@
-/* Luogu P3376 */
+// https://www.luogu.com.cn/problem/P3376
 #include <bits/stdc++.h>
 using namespace std;
 using ll = long long;

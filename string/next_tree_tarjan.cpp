@@ -1,4 +1,5 @@
-/* Luogu-P5829 KMP + TarjanLCA */
+// https://www.luogu.com.cn/problem/P5829
+/* KMP + TarjanLCA */
 #include <bits/stdc++.h>
 using namespace std;
 const int N = 1000005;
