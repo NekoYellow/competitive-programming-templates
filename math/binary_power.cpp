@@ -3,11 +3,11 @@
 using namespace std;
 using ll = long long;
 
-ll qpow(ll a, ll n, ll mod) {
+ll qpow(ll a, ll n, ll M) {
     ll res = 1;
     while (n) {
-        if (n&1) res = res * a % mod;
-        a = a * a % mod;
+        if (n&1) res = res * a % M;
+        a = a * a % M;
         n >>= 1;
     }
     return res;
