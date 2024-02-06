@@ -4,12 +4,10 @@
 using ll = long long;
 
 template<class T>
-constexpr T power(T a, ll b) {
+constexpr T power(T a, ll n) {
     T res = 1;
-    for (; b; b >>= 1, a *= a) {
-        if (b & 1) {
-            res *= a;
-        }
+    for (; n; a *= a, n >>= 1) {
+        if (n & 1) res *= a;
     }
     return res;
 }
@@ -17,27 +15,63 @@ constexpr T power(T a, ll b) {
 template<int P>
 struct MInt {
     int x;
-    constexpr MInt() : x{} {}
-    constexpr MInt(ll _x) : x{_x % P} { if (x < 0) x += P; }
-    constexpr static int getMod() { return P; }
-    constexpr int val() const { return x; }
-    explicit constexpr operator int() const { return x; }
-    constexpr MInt operator-() const { return MInt(P - x); }
-    constexpr MInt inv() const { assert(x != 0); return power(*this, P - 2); }
-    friend constexpr MInt operator+(const MInt& lhs, const MInt& rhs) { return MInt(lhs.x + rhs.x); }
-    friend constexpr MInt operator-(const MInt& lhs, const MInt& rhs) { return lhs + (-rhs); }
-    friend constexpr MInt operator*(const MInt& lhs, const MInt& rhs) { return MInt(1LL * lhs.x * rhs.x); }
-    friend constexpr MInt operator/(const MInt& lhs, const MInt& rhs) { return lhs * rhs.inv(); }
-    constexpr MInt &operator+=(const MInt& rhs) & { x = (x + rhs.x) % P; return *this; }
-    constexpr MInt &operator-=(const MInt& rhs) & { return *this += -rhs; }
-    constexpr MInt &operator*=(const MInt& rhs) & { x = 1LL * x * rhs.x % P; return *this; }
-    constexpr MInt &operator/=(const MInt& rhs) & { return *this *= rhs.inv(); }
-    friend constexpr std::istream &operator>>(std::istream &is, MInt &a) {
-        ll v; is >> v; a = MInt(v); return is;
+    constexpr MInt() : x() {}
+    constexpr MInt(ll _x) : x(_x % P) {
+        if (x < 0) x += P;
     }
-    friend constexpr std::ostream &operator<<(std::ostream &os, const MInt &a) { return os << a.val(); }
-    friend constexpr bool operator==(const MInt& lhs, const MInt& rhs) { return lhs.val() == rhs.val(); }
-    friend constexpr bool operator!=(const MInt& lhs, const MInt& rhs) { return lhs.val() != rhs.val(); }
+    constexpr static int getMod() {
+        return P;
+    }
+    constexpr int val() const {
+        return x;
+    }
+    explicit constexpr operator int() const {
+        return x;
+    }
+    constexpr MInt operator-() const {
+        return P - x;
+    }
+    constexpr MInt inv() const {
+        assert(x != 0);
+        return power(*this, P - 2);
+    }
+    friend constexpr MInt operator+(const MInt& lhs, const MInt& rhs) {
+        return MInt(lhs.x + rhs.x);
+    }
+    friend constexpr MInt operator-(const MInt& lhs, const MInt& rhs) {
+        return lhs + (-rhs);
+    }
+    friend constexpr MInt operator*(const MInt& lhs, const MInt& rhs) {
+        return MInt(1LL * lhs.x * rhs.x);
+    }
+    friend constexpr MInt operator/(const MInt& lhs, const MInt& rhs) {
+        return lhs * rhs.inv();
+    }
+    constexpr MInt &operator+=(const MInt& rhs) & {
+        x = (x + rhs.x) % P; return *this;
+    }
+    constexpr MInt &operator-=(const MInt& rhs) & {
+        return *this += -rhs;
+    }
+    constexpr MInt &operator*=(const MInt& rhs) & {
+        x = 1LL * x * rhs.x % P; return *this;
+    }
+    constexpr MInt &operator/=(const MInt& rhs) & {
+        return *this *= rhs.inv();
+    }
+    friend constexpr std::istream &operator>>(std::istream &is, MInt &a) {
+        ll v; is >> v; a(v);
+        return is;
+    }
+    friend constexpr std::ostream &operator<<(std::ostream &os, const MInt &a) {
+        return os << a.val();
+    }
+    friend constexpr bool operator==(const MInt& lhs, const MInt& rhs) {
+        return lhs.val() == rhs.val();
+    }
+    friend constexpr bool operator!=(const MInt& lhs, const MInt& rhs) {
+        return lhs.val() != rhs.val();
+    }
 };
 
 /* TO FILL IN */

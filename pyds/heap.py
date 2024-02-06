@@ -1,11 +1,7 @@
-class Heap():
-    """Binary Heap."""
-    def __init__(self, original=[], key=lambda v: v, ismax=True):
-        """Build a heap (max in default) using elements in `original`.\\
-        Support user defined key function `key` for ordering.\\
-        Set `ismax` to `False` if a min heap is desired."""
-        self._h = original
-        self._N = len(original)
+class Heap:
+    def __init__(self, data=[], key=lambda v: v, ismax=True):
+        self._h = data
+        self._N = len(data)
         self._key, self._max = key, ismax
         if self._N > 1:
             for k in range(self._N>>1, 0, -1): 
@@ -62,6 +58,9 @@ class Heap():
     
     def __str__(self):
         return str(self._h) + ', ' + ("maxheap" if self._max else "minheap")
+
+    def __bool__(self):
+        return self._N != 0
       
 
 if __name__ == '__main__':

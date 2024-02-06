@@ -10,38 +10,50 @@ using namespace std;
 using ll = long long;
 const char nl = '\n';
 
-int lowbit(int x) {
-    return x & (-x);
-}
+template <class T>
+struct BIT {
+    int n;
+    vector<T> tree;
 
-class BIT {
-public:
-    BIT(const vector<int>& _a) {
+    /* TO FILL IN */
+    const T e = 0;
+    T op(T a, T b) {
+        return a ^ b;
+    }
+
+    BIT(int _n) : n(_n) {
+        tree.assign(n+1, e);
+    }
+
+    BIT(const vector<T>& _a) {
         n = _a.size();
-        a.resize(n+1);
+        tree.assign(n+1, e);
         for (int i = 0; i < n; i++) {
             add(i, _a[i]);
         }
     }
-    void add(int i, int x) {
-        i++;
+
+    int lowbit(int x) {
+        return x & (-x);
+    }
+
+    void add(int i, T x) {
+        ++i;
         while (i <= n) {
-            a[i] ^= x;
+            tree[i] = op(tree[i], x);
             i += lowbit(i);
         }
     }
-    int query(int i) {
-        i++;
-        int sum = 0;
+
+    T query(int i) {
+        ++i;
+        T sum = e;
         while (i) {
-            sum ^= a[i];
+            sum = op(sum, tree[i]);
             i -= lowbit(i);
         }
         return sum;
     }
-private:
-    int n;
-    vector<int> a;
 };
 
 struct node {
@@ -70,7 +82,7 @@ void solve() {
     }
     sort(b.begin(), b.end());
 
-    BIT tree = BIT(a);
+    BIT<int> tree(a);
     vector<int> ps(n+1, 0);
     for (int i = 0; i < n; i++) {
         ps[i+1] = ps[i]^a[i];

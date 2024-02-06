@@ -1,140 +1,101 @@
-/* cf 1904D : judge if a can be transfered into b
-   by several a[l:r] <- max(a[l:r]) operations */
-#include "bits/stdc++.h"
+// https://www.luogu.com.cn/problem/P3372
+#include <bits/stdc++.h>
 using namespace std;
-#define ll long long
+using ll = long long;
+const char nl = '\n';
 
-template <typename T>
+template <class T>
 struct ST {
-
-    int n;
-    int bstart, stsize;
-    vector<T> st, up;
+    int n, size;
+    vector<T> tree, tag;
 
     /* TO FILL IN */
-    const T zero = 0;
-    const T noup = -1;
+    const T e = 0;
+    const bool acc = true; // accumulative (add or set on modification)
     T op(T a, T b) {
-        return max(a, b);
+        return a + b;
+    }
+    T pow(T a, int n) {
+        return a * n;
     }
 
-    void pushdown(int c, ll cmin, ll cmax) {
-        if (up[c] == noup) return;
-        st[c] = up[c];
-        if (c < bstart) {
-            up[c * 2 + 1] = up[c];
-            up[c * 2 + 2] = up[c];
+    ST(int _n) : n(_n) {
+        int i = 1;
+        while (i < n) i <<= 1;
+        size = (i << 1) - 1;
+        tree.assign(size, e);
+        tag.assign(size, e);
+    }
+
+    void pushdown(int c, int cmin, int cmax) {
+        if (tag[c] == e) return;
+        tree[c] = acc ? op(tree[c], pow(tag[c], cmax - cmin + 1)) : tag[c];
+        if (c < size / 2) {
+            tag[c * 2 + 1] = acc ? op(tag[c * 2 + 1], tag[c]) : tag[c];
+            tag[c * 2 + 2] = acc ? op(tag[c * 2 + 2], tag[c]) : tag[c];
         }
-        up[c] = noup;
-    }
-
-    ST(int _n) {
-        n = _n;
-        bstart = 1;
-        while (bstart < n) bstart *= 2;
-        stsize = bstart * 2 - 1;
-        bstart--;
-
-        st.resize(stsize, zero);
-        up.resize(stsize, noup);
+        tag[c] = e;
     }
     
-    void update(int c, int cmin, int cmax, int minb, int maxb, T v) {
+    void update(int c, int cmin, int cmax, int lo, int hi, T v) {
         pushdown(c, cmin, cmax);
-        if (cmin >= minb && cmax <= maxb) {
-            up[c] = v;
+        if (cmin >= lo && cmax <= hi) {
+            tag[c] = acc ? op(tag[c], v) : v;
             pushdown(c, cmin, cmax);
             return;
         }
-        if (cmin > maxb || cmax < minb) return;
-        update(c * 2 + 1, cmin, (cmin + cmax) / 2, minb, maxb, v);
-        update(c * 2 + 2, 1 + (cmin + cmax) / 2, cmax, minb, maxb, v);
-        st[c] = op(st[c * 2 + 1], st[c * 2 + 2]);
+        if (cmin > hi || cmax < lo) return;
+        int cmid = cmin + (cmax - cmin) / 2;
+        update(c * 2 + 1, cmin, cmid, lo, hi, v);
+        update(c * 2 + 2, cmid + 1, cmax, lo, hi, v);
+        tree[c] = op(tree[c * 2 + 1], tree[c * 2 + 2]);
     }
 
     void update(int lo, int hi, T v) {
-        update(0, 0, bstart, lo, hi, v);
+        update(0, 0, size / 2, lo, hi, v);
     }
 
-    T query(int c, int cmin, int cmax, int minb, int maxb) {
+    T query(int c, int cmin, int cmax, int lo, int hi) {
         pushdown(c, cmin, cmax);
-        if (cmin >= minb && cmax <= maxb) return st[c];
-        if (cmin > maxb || cmax < minb) return zero;
-        return op(query(c * 2 + 1, cmin, (cmin + cmax) / 2, minb, maxb),
-                        query(c * 2 + 2, 1 + (cmin + cmax) / 2, cmax, minb, maxb));
+        if (cmin >= lo && cmax <= hi) return tree[c];
+        if (cmin > hi || cmax < lo) return e;
+        int cmid = cmin + (cmax - cmin) / 2;
+        return op(query(c * 2 + 1, cmin, cmid, lo, hi),
+                query(c * 2 + 2, cmid + 1, cmax, lo, hi));
     }
 
     T query(int lo, int hi) {
-        return query(0, 0, bstart, lo, hi);
+        return query(0, 0, size / 2, lo, hi);
     }
-
 };
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    
-    int t; cin >> t;
-    while (t--) {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
 
-        int n; cin >> n;
-
-        vector<int> a(n);
-        for (int &i : a) {
-            cin >> i;
-            i--;
-        }
-
-        vector<int> b(n);
-        for (int &i : b) {
-            cin >> i;
-            i--;
-        }
-
-        vector<vector<int>> ap(n), bp(n);
-        set<int> bless, amore;
-        ST<int> helper(n + 5);
-
-        bless.insert(-1);
-        amore.insert(-1);
-        bless.insert(n);
-        amore.insert(n);
-
-        for (int i = 0; i < n; i++) {
-            ap[a[i]].push_back(i);
-            bp[b[i]].push_back(i);
-            helper.update(i, i, a[i]);
-            amore.insert(i);
-        }
-
-        for (int i = 0; i < n; i++) {
-            for (int x : ap[i]) {
-                amore.erase(x);
-            }
-
-            for (int x : ap[i]) {
-
-                int nit = min(*amore.lower_bound(x), *bless.lower_bound(x));
-                int pit = max(*(--amore.lower_bound(x)), *(--bless.lower_bound(x)));
-
-                helper.update(pit + 1, nit - 1, i);
-
-            }
-
-            for (int x : bp[i]) {
-                bless.insert(x);
-            }
-        }
-
-        int ok = 1;
-        for (int i = 0; i < n; i++) {
-            if (helper.query(i, i) != b[i]) {
-                ok = 0;
-            }
-        }
-
-        cout << (ok ? "YES\n" : "NO\n");
-
+    int n, q;
+    cin >> n >> q;
+    ST<ll> st(n);
+    for (int i = 0; i < n; i++) {
+        int a;
+        cin >> a;
+        st.update(i, i, a);
     }
-    
+    while (q--) {
+        int t;
+        cin >> t;
+        if (t == 1) {
+            int x, y, k;
+            cin >> x >> y >> k;
+            x--, y--;
+            st.update(x, y, k);
+        } else {
+            int x, y;
+            cin >> x >> y;
+            x--, y--;
+            cout << st.query(x, y) << nl;
+        }
+    }
+
+    return 0;
 }
