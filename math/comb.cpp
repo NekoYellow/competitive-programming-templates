@@ -1,7 +1,8 @@
-// https://codeforces.com/contest/1924/problem/E
+// https://codeforces.com/contest/1931/problem/G
 #include <bits/stdc++.h>
-
+using namespace std;
 using ll = long long;
+const char nl = '\n';
 
 template<class T>
 constexpr T power(T a, ll n) {
@@ -60,7 +61,7 @@ struct MInt {
         return *this *= rhs.inv();
     }
     friend constexpr std::istream &operator>>(std::istream &is, MInt &a) {
-        ll v; is >> v; a(v);
+        ll v; is >> v; a = v;
         return is;
     }
     friend constexpr std::ostream &operator<<(std::ostream &os, const MInt &a) {
@@ -72,10 +73,13 @@ struct MInt {
     friend constexpr bool operator!=(const MInt& lhs, const MInt& rhs) {
         return lhs.val() != rhs.val();
     }
+    friend constexpr bool operator<(const MInt& lhs, const MInt& rhs) {
+        return lhs.val() < rhs.val();
+    }
 };
 
 /* TO FILL IN */
-constexpr int P = 1E9 + 7;
+constexpr int P = 998244353;
 using Z = MInt<P>;
 
 struct Comb {
@@ -122,55 +126,54 @@ struct Comb {
     }
 } comb;
 
-void solve() {
-    int n, m;
-    ll k;
-    std::cin >> n >> m >> k;
-    
-    if (1LL * n * m < k) {
-        std::cout << 0 << "\n";
-        return;
+Z big_choose(int n, int m) { // for large n
+    m = min(m, n-m);
+    Z res = 1;
+    for (int v = n-m+1; v <= n; v++) {
+        res *= v;
     }
-    
-    Z ans = 1;
-    for (int i = 1; i < n; i++) {
-        if (1LL * i * m >= k) {
-            ans += comb.inv(i + m - 1);
-        }
-    }
-    for (int i = 1; i < m; i++) {
-        if (1LL * i * n >= k) {
-            ans += comb.inv(i + n - 1);
-        }
-    }
-    for (int s = 2, i = -1; s <= n + m - 2; s++) {
-        if (1LL * (s / 2) * ((s + 1) / 2) < k) {
-            continue;
-        }
-        if (i == -1) {
-            i = s / 2;
-        }
-        while (1LL * (i - 1) * (s - (i - 1)) >= k) {
-            i -= 1;
-        }
-        int l = std::max(i, s - (m - 1));
-        int r = std::min(s - i, n - 1);
-        ans += std::max(0, r - l + 1) * comb.inv(s) * comb.inv(s - 1) * 2;
-    }
-    
-    std::cout << ans << "\n";
+    res *= comb.invfac(m);
+    return res;
 }
 
-int main() {
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
-    
-    int t;
-    std::cin >> t;
-    
+void solve() {
+    int i, d, h, l; // incr, decr, high, low
+    cin >> i >> d >> h >> l;
+
+    if (abs(i-d) > 1) {
+        cout << 0 << nl;
+        return;
+    } else if (i == 0 && d == 0) {
+        if (h != 0 && l != 0) {
+            cout << 0 << nl;
+            return;
+        }
+        cout << 1 << nl;
+        return;
+    } else if (i == 0 || d == 0) {
+        cout << 1 << nl;
+        return;
+    }
+
+    // Similar to B-E Distribution
+    int p = max(i, d);
+    Z ans = 0;
+    if (i == d) {
+        ans += comb.binom(p+h-1, p-1) * comb.binom(p+l, p); // i-d-...-i-d
+        ans += comb.binom(p+h, p) * comb.binom(p+l-1, p-1); // d-i-...-d-i
+    } else {
+        ans = comb.binom(p+h-1, p-1) * comb.binom(p+l-1, p-1);
+    }
+    cout << ans << nl;
+}
+
+signed main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+    int t = 1;
+    cin >> t;
     while (t--) {
         solve();
     }
-    
     return 0;
 }

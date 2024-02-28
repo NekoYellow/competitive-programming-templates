@@ -2,10 +2,25 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// struct DSU {
+//     vector<int> par;
+//     DSU(int n) {
+//         par.resize(n);
+//         iota(par.begin(), par.end(), 0);
+//     }
+//     int find(int x) {
+//         if (x == par[x]) return x;
+//         return par[x] = find(par[x]);
+//     }
+//     void merge(int x, int y) {
+//         par[find(y)] = find(x);
+//     }
+// };
+
 struct DSU {
     vector<int> par, nv, ne;
     int nset;
-    void init(int n) {
+    DSU(int n) {
         par.resize(n); iota(par.begin(), par.end(), 0);
         nv.assign(n, 1);
         ne.assign(n, 0);
@@ -41,8 +56,7 @@ int main() {
     cin.tie(0); cout.tie(0);
     int n, m;
     cin >> n >> m;
-    DSU uf;
-    uf.init(n);
+    DSU uf(n);
     int a, c; char b, d;
     while (m--) {
         cin >> a >> b >> c >> d;
