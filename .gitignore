@@ -1,4 +1,4 @@
 .DS_Store
-./[A-Z]*
+[A-Z]*
 .cph/*
 .vscode/*
