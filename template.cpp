@@ -2,7 +2,7 @@
 using namespace std;
 using ll = long long;
 const char nl = '\n';
-#define watch(x) cout << (#x) << ": " << (x) << nl
+#define watch(x) cout << (#x) << ": " << (x) << endl
 
 void solve() {
     
