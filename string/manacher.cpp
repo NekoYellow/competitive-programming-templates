@@ -2,41 +2,42 @@
 /* Find the length of the longest palindrome in a string. */
 #include <bits/stdc++.h>
 using namespace std;
-const int N = 3e7+10;
 
-int p[N]; // p[i] := width of the longest palindrome whose mid is i
-string origin, s;
-
-void manacher() {
-    int hi = 0, mid;
-    for (int i = 1; i < s.size(); i++) {
-        if (i < hi)
-            p[i] = min(p[(mid<<1)-i], p[mid]+mid-i);
-        else
-            p[i] = 1;
-        while (s[i+p[i]] == s[i-p[i]]) p[i]++;
-        if (p[i]+i > hi) {
-            hi = i+p[i];
-            mid = i;
+vector<int> manacher_odd(string s) {
+    int n = s.size();
+    s = "$" + s + "^";
+    vector<int> p(n + 2);
+    int l = 1, r = 1;
+    for(int i = 1; i <= n; i++) {
+        p[i] = max(0, min(r - i, p[l + (r - i)]));
+        while(s[i - p[i]] == s[i + p[i]]) {
+            p[i]++;
+        }
+        if(i + p[i] > r) {
+            l = i - p[i], r = i + p[i];
         }
     }
+    return vector<int>(begin(p) + 1, end(p) - 1);
 }
 
-void init() { // change
-    s = "!#";
-    for (auto c: origin)
-        s += c, s += '#';
-    s += '$';
+vector<int> manacher(string s) {
+    string t;
+    for(auto c: s) {
+        t += string("#") + c;
+    }
+    auto res = manacher_odd(t + "#");
+    return vector<int>(begin(res) + 1, end(res) - 1);
 }
 
 int main() {
-    cin >> origin;
-    init();
-    memset(p, 0, sizeof(p));
-    manacher();
+    string s;
+    cin >> s;
+
+    auto p = manacher(s);
     int ans = 1;
-    for (int i = 0; i < s.size(); i++)
-        ans = max(p[i], ans);
-    cout << ans-1 << endl;
+    for (auto e: p)
+        ans = max(e, ans);
+    cout << ans-1 << '\n';
+
     return 0;
 }
