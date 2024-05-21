@@ -4,7 +4,7 @@ using namespace std;
 using ll = long long;
 const char nl = '\n';
 
-// vector<int> c(n + 5);
+// vector<int> c(n+1, 0);
 // auto add = [&](int x, int val) {
 //     while (x <= n) {
 //         c[x] += val;

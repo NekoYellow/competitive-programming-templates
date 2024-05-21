@@ -17,17 +17,15 @@ signed main() {
     int n, m;
     cin >> n >> m;
     
-    vector<Node> q;
-    
     vector<int> a(n + 1);
     for (int i = 1; i <= n; i++) {
         cin >> a[i];
     }
     
+    vector<Node> q;
     for (int i = 1; i <= n; i++) {
         q.push_back({0, 0, a[i], i, 0});
     } 
-
     for (int i = 1, l, r, k; i <= m; i++) {
         cin >> l >> r >> k;
         q.push_back({l, r, k, i, 1});
@@ -95,7 +93,7 @@ signed main() {
     for (int i = 1; i <= m; i++) {
         cout << ans[i] << "\n"; 
     }
-        
+    
     return 0;
 }
 
