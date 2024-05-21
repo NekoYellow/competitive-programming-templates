@@ -1,4 +1,7 @@
-.DS_Store
-[A-Z]*
-.cph/*
-.vscode/*
+*
+!/**/
+!*/*.cpp
+!*.h
+!*.py
+!README.md
+!.gitignore
