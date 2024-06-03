@@ -1,7 +1,7 @@
 *
 !/**/
 !*/*.cpp
-!*.h
-!*.py
+!*/*.h
+!*/*.py
 !README.md
 !.gitignore
