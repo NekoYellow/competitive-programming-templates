@@ -1,35 +1,35 @@
 // https://www.luogu.com.cn/problem/P3375
 #include <bits/stdc++.h>
 using namespace std;
-const int N = 1e6+10;
 
-string w, t; // word, text
-int nxt[N]; // nxt[i] := length of the longest boarder of w[1..i]
-
-int match() {
-    int cnt = 0, m = w.size(), n = t.size();
-    int p = 0, cur = 0;
-    while (cur < n) {
-        if (w[p] == t[cur]) p++, cur++;
-        else if (p >= 0) p = nxt[p];
-        else p = 0, cur++;
-        if (p == m) cout << cur-m+1 << '\n', p = nxt[p];
+// s[:i] is a boarder of s (len=n) if i<n and s[:i]==s[-i:]
+// pi[i] is the length of the longest boarder of s[:i+1]
+vector<int> prefix_function(string s) {
+    int n = s.length();
+    vector<int> pi(n, 0); // pi[0] = 0 by convention
+    for (int i = 1; i < n; i++) {
+        int j = pi[i - 1];
+        while (j > 0 && s[i] != s[j]) j = pi[j - 1];
+        pi[i] = j + (s[i] == s[j]);
     }
-    return cnt;
+    return pi;
 }
 
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    cin >> t >> w;
-    nxt[0] = -1, nxt[1] = 0;
-    int p = 0;
-    for (int cur = 2; cur <= w.size(); cur++) {
-        while (w[p] != w[cur-1] && p >= 0) p = nxt[p];
-        nxt[cur] = ++p;
+
+    string txt, pat;
+    cin >> txt >> pat;
+    int n = txt.size(), m = pat.size();
+    vector<int> pi = prefix_function(pat + '#' + txt);
+
+    for (int i = m+1; i < m+n+1; i++) {
+        if (pi[i] == m) cout << (i-m+1)-m << '\n';
     }
-    match();
-    for (int i = 1; i <= w.size(); i++) {
-        cout << nxt[i] << " \n"[i == w.size()];
+    for (int i = 0; i < m; i++) {
+        cout << pi[i] << " \n"[i == m-1];
     }
+
+    return 0;
 }

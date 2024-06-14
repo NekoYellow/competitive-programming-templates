@@ -3,12 +3,13 @@
 using namespace std;
 typedef long long ll;
 
+// z[i] is the length of the longest common prefix of s and s[i:]
 vector<int> z_function(const string &s) {
     int n = s.length();
-    vector<int> z(n);
-    z[0] = n; // unconventional
+    vector<int> z(n, 0);
+    z[0] = n; // z[0] = 0 by convention
     for (int i = 1, l = 0, r = 0; i < n; ++i) {
-        if (i <= r && z[i-l] < r-i+1) {
+        if (z[i-l] < r-i+1) {
             z[i] = z[i-l];
         } else {
             z[i] = max(0, r-i+1);
