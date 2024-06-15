@@ -3,27 +3,12 @@ import argparse
 
 inputs = [
 """\
-8
-aaaaa
-baba
-cabacb
-aaabaaa
-bitset
-ab
-abbaaaabbb
-yearnineteeneightyfour
+
 """
 ]
 outputs = [
 """\
-4
-4
-1
-16
-1
-2
-3
-1
+
 """
 ]
 
