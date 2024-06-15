@@ -25,7 +25,7 @@ int main() {
     cin.tie(0); cout.tie(0);
     string a, b;
     cin >> a >> b;
-    auto z = z_function(b);
+    auto&& z = z_function(b);
     ll ans = 0;
     for (int i = 0; i < z.size(); i++) {
         ans ^= 1LL*(i+1)*(z[i]+1);

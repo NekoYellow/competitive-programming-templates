@@ -22,7 +22,7 @@ int main() {
     string txt, pat;
     cin >> txt >> pat;
     int n = txt.size(), m = pat.size();
-    vector<int> pi = prefix_function(pat + '#' + txt);
+    auto&& pi = prefix_function(pat + '#' + txt);
 
     for (int i = m+1; i < m+n+1; i++) {
         if (pi[i] == m) cout << (i-m+1)-m << '\n';
