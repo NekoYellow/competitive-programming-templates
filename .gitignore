@@ -7,4 +7,4 @@
 !.gitignore
 !template.cpp
 !tester.py
-!tester_tiny.py
+!runner.py
