@@ -4,7 +4,7 @@ using namespace std;
 typedef long long ll;
 
 // z[i] is the length of the longest common prefix of s and s[i:]
-vector<int> z_function(const string &s) {
+vector<int> z_function(const string& s) {
     int n = s.length();
     vector<int> z(n, 0);
     z[0] = n; // z[0] = 0 by convention

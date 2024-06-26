@@ -4,7 +4,7 @@ using namespace std;
 
 // s[:i] is a boarder of s (len=n) if i<n and s[:i]==s[-i:]
 // pi[i] is the length of the longest boarder of s[:i+1]
-vector<int> prefix_function(string s) {
+vector<int> prefix_function(const string& s) {
     int n = s.length();
     vector<int> pi(n, 0); // pi[0] = 0 by convention
     for (int i = 1; i < n; i++) {
