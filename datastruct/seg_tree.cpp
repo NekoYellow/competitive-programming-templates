@@ -36,7 +36,9 @@ class SegTree {
     }
 
   public:
-    SegTree(int _n) : n(_n), t(_n*4, e) {}
+    SegTree(int _n) : n(_n) {
+        t.assign(_n*4, e);
+    }
     void update(int i, T val) {
         return update(1, 0, n, i, val);
     }
