@@ -4,12 +4,16 @@ using namespace std;
 
 class Trie {
   public:
-    Trie(int n): t(n+1, vector<int>(R)), cnt(n+1, 0), pos(1) {}
+    Trie(): t(1), cnt(1), pos(1) {}
     void insert(const string& s) {
         int p = 0;
         for (auto c: s) {
             c -= 'a';
-            p = t[p][c] = (t[p][c] ? t[p][c] : pos++);
+            if (!t[p][c]) {
+                t.push_back(array<int, R>()); cnt.push_back(0);
+                t[p][c] = pos++;
+            }
+            p = t[p][c];
         }
         cnt[p]++;
     }
@@ -23,8 +27,8 @@ class Trie {
         return cnt[p]++; // count time mentioned; typically return cnt[p]
     }
   private:
-    const int R = 26;
-    vector<vector<int>> t;
+    static const int R = 26;
+    vector<array<int, R>> t;
     vector<int> cnt;
     int pos;
 };
@@ -33,7 +37,7 @@ int main() {
     ios::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
 
-    Trie trie(5e5);
+    Trie trie;
     int n;
     cin >> n;
     while (n--) {
