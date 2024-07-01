@@ -4,8 +4,10 @@ using namespace std;
 using ll = long long;
 const char nl = '\n';
 
+const int inf = numeric_limits<int>::max();
+
 class MF {
-public:
+  public:
     MF(int _n, int _s, int _t) {
         n = _n; s = _s; t = _t;
         head.resize(n);
@@ -22,7 +24,6 @@ public:
 
     ll dinic() {
         ll maxflow = 0;
-        int inf = (1 << 31) - 1;
         while (bfs()) {
             cur = head;
             maxflow += dfs(s, inf);
@@ -30,14 +31,14 @@ public:
         return maxflow;
     }
 
-private:
+  private:
     int n; // |V|
     int s, t; // source, sink
     struct Edge {
         int v, nxt, c, f; // to, next edge, capacity, flow
     };
     vector<Edge> e;
-    vector<int> head; // forward star repr
+    vector<int> head; // linked forward repr
     vector<int> dep, cur; // for dfs
 
     bool bfs() {
