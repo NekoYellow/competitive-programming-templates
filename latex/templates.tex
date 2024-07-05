@@ -1,0 +1,131 @@
+\documentclass[a4paper,11pt]{article}
+\newcommand{\todo}[1]{{\tt $\ldots$ #1 $\ldots$ }}
+\usepackage[utf8]{inputenc}  % Linux, macOS: enable non-English characters
+\usepackage[british]{babel}
+\usepackage{fullpage}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm} \newtheorem{theorem}{Theorem}
+\usepackage{booktabs}
+%\usepackage{clrscode3e}
+\usepackage{color}
+\usepackage{courier} % \texttt{...} gives thinner text
+\usepackage{float}
+\usepackage{mathtools} \mathtoolsset{showonlyrefs}  % provides \coloneqq
+\usepackage{multirow}
+\usepackage{tikz} \usetikzlibrary{trees}
+\usepackage{listings}
+\lstset{language=C++,
+	basicstyle=\footnotesize\ttfamily,
+	keywordstyle=\color[rgb]{0,0.5,0}\ttfamily,
+	stringstyle=\color{orange}\ttfamily,
+	commentstyle=\color{red}\ttfamily,
+	tabsize=4,
+	numbers=left, numberstyle=\tiny, numbersep=5pt,
+	breaklines=true,
+	breakatwhitespace=true,
+	prebreak={/},
+	captionpos=b,
+	columns=fullflexible,
+	escapeinside={\#*}{\^^M},
+	mathescape
+}
+\usepackage{hyperref}  % should always be the last package
+
+
+% useful wrappers for algorithmic/Python notation:
+\newcommand{\length}[1]{\text{len}(#1)}
+\newcommand{\twodots}{\mathinner{\ldotp\ldotp}}  % taken from clrscode3e.sty
+\newcommand{\Returns}{\longrightarrow}
+
+%% useful (wrappers for) math symbols:
+\newcommand{\Cardinality}[1]{\left\lvert#1\right\rvert}
+%\newcommand{\Cardinality}[1]{\##1}
+\newcommand{\Ceiling}[1]{\left\lceil#1\right\rceil}
+\newcommand{\Floor}[1]{\left\lfloor#1\right\rfloor}
+\newcommand{\Iff}{\Leftrightarrow}
+\newcommand{\Implies}{\Rightarrow}
+\newcommand{\Intersect}{\cap}
+\newcommand{\Oh}[1]{\mathcal{O}\left(#1\right)}
+\newcommand{\Sequence}[1]{\left[#1\right]}
+\newcommand{\Set}[1]{\left\{#1\right\}}
+\newcommand{\SetComp}[2]{\Set{#1\SuchThat#2}}
+\newcommand{\SuchThat}{\mid}
+\newcommand{\Tuple}[1]{\langle#1\rangle}
+\newcommand{\Union}{\cup}
+
+%% fancy characters:
+\usepackage{pifont}
+%\newcommand{\scissors}{\ding{36}}
+%\newcommand{\phone}{\ding{37}}
+%\newcommand{\aircraft}{\ding{40}}
+%\newcommand{\envelope}{\ding{41}}
+\newcommand{\handpoint}{\ding{43}}
+%\newcommand{\victory}{\ding{44}}
+%\newcommand{\handwrite}{\ding{45}}
+%\newcommand{\tick}{\ding{51}}
+%\newcommand{\notick}{\ding{55}}
+
+\renewcommand{\thepart}{\arabic{part}}
+\renewcommand{\thesection}{\Alph{section}}
+
+\title{\textbf{DSA Templates}}
+
+\author{Yueyuan Huang}
+
+%\date{Month Day, Year}
+\date{\today}
+
+
+\begin{document}
+
+\include{preface}
+\maketitle
+\newpage
+
+\lstinputlisting[firstline=7, lastline=50, float=!ht, caption={Trie of 01-strings.}]{../datastruct/01trie.cpp}
+
+\lstinputlisting[firstline=6, lastline=20, float=!ht, caption={1-indexed BIT.}]{../datastruct/bit_simple.cpp}
+
+\lstinputlisting[firstline=5, lastline=27, float=!ht, caption={DSU.}]{../datastruct/dsu_simple.cpp}
+
+\lstinputlisting[firstline=5, lastline=48, float=!ht, caption={Segment Tree supporting point modify and interval query.}]{../datastruct/seg_tree.cpp}
+
+\lstinputlisting[firstline=7, lastline=63, float=!ht, caption={Lazy-tag Segment Tree.}]{../datastruct/segment_tree.cpp}
+
+
+\lstinputlisting[firstline=7, lastline=60, float=!ht, caption={Max flow.}]{../graph/maxflow.cpp}
+
+\lstinputlisting[firstline=6, lastline=57, float=!ht, caption={Tarjan LCA.}]{../graph/tarjan.cpp}
+
+\lstinputlisting[firstline=9, lastline=38, float=!ht, caption={Kosaraju SCC.}]{../graph/scc.cpp}
+
+%\TODO More graph algorithms to add
+
+
+\lstinputlisting[firstline=7, lastline=14, float=!ht, caption={Binary Power.}]{../math/comb.cpp}
+
+\lstinputlisting[firstline=16, lastline=58, float=!ht, caption={Mod P Integer.}]{../math/comb.cpp}
+
+\lstinputlisting[firstline=59, lastline=99, float=!ht, caption={Combinations.}]{../math/comb.cpp}
+
+\lstinputlisting[firstline=5, lastline=12, float=!ht, caption={Exgcd. Solve ax = 1 (mod b)}]{../math/exgcd.cpp}
+
+\lstinputlisting[firstline=9, lastline=22, float=!ht, caption={Prime Sieve.}]{../math/prime_sieve.cpp}
+
+
+\lstinputlisting[firstline=37, lastline=59, float=!ht, caption={2-SAT.}]{../misc/2sat.cpp}
+
+\lstinputlisting[firstline=1, lastline=17, float=!ht, caption={Binary Search.}]{../misc/binary_search.cpp}
+
+
+\lstinputlisting[firstline=5, lastline=16, float=!ht, caption={Prefix Function in KMP.}]{../string/kmp.cpp}
+
+\lstinputlisting[firstline=6, lastline=19, float=!ht, caption={Manacher to find palindromes.}]{../string/manacher.cpp}
+
+\lstinputlisting[firstline=6, lastline=21, float=!ht, caption={Z Algorithm.}]{../string/z_algo.cpp}
+
+\lstinputlisting[firstline=5, lastline=34, float=!ht, caption={Trie.}]{../string/trie.cpp}
+
+\end{document}
