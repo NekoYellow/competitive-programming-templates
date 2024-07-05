@@ -13,7 +13,7 @@ vector<int> prefix_function(const string& s) {
         pi[i] = j + (s[i] == s[j]);
     }
     return pi;
-}
+} // auto&& pi = prefix_function(pat + '#' + txt);
 
 int main() {
     ios::sync_with_stdio(0);

@@ -7,8 +7,8 @@ const char nl = '\n';
 template<class T>
 constexpr T power(T a, ll n) {
     T res = 1;
-    for (; n; a *= a, n >>= 1) {
-        if (n & 1) res *= a;
+    for (; n; a = a*a, n >>= 1) {
+        if (n & 1) res = res*a;
     }
     return res;
 }
@@ -17,18 +17,9 @@ template<int P>
 struct MInt {
     int x;
     constexpr MInt() : x() {}
-    constexpr MInt(ll _x) : x(_x % P) {
-        if (x < 0) x += P;
-    }
-    constexpr static int getMod() {
-        return P;
-    }
-    constexpr int val() const {
-        return x;
-    }
-    explicit constexpr operator int() const {
-        return x;
-    }
+    constexpr MInt(ll _x) : x(_x % P) { if (x < 0) x += P; }
+    constexpr int val() const { return x; }
+    explicit constexpr operator int() const { return x; }
     constexpr MInt operator-() const {
         return P - x;
     }
@@ -48,18 +39,6 @@ struct MInt {
     friend constexpr MInt operator/(const MInt& lhs, const MInt& rhs) {
         return lhs * rhs.inv();
     }
-    constexpr MInt &operator+=(const MInt& rhs) & {
-        x = (x + rhs.x) % P; return *this;
-    }
-    constexpr MInt &operator-=(const MInt& rhs) & {
-        return *this += -rhs;
-    }
-    constexpr MInt &operator*=(const MInt& rhs) & {
-        x = 1LL * x * rhs.x % P; return *this;
-    }
-    constexpr MInt &operator/=(const MInt& rhs) & {
-        return *this *= rhs.inv();
-    }
     friend constexpr std::istream &operator>>(std::istream &is, MInt &a) {
         ll v; is >> v; a = v;
         return is;
@@ -73,26 +52,20 @@ struct MInt {
     friend constexpr bool operator!=(const MInt& lhs, const MInt& rhs) {
         return lhs.val() != rhs.val();
     }
-    friend constexpr bool operator<(const MInt& lhs, const MInt& rhs) {
-        return lhs.val() < rhs.val();
-    }
 };
-
 /* TO FILL IN */
 constexpr int P = 998244353;
 using Z = MInt<P>;
 
 struct Comb {
     int _n;
-    std::vector<Z> _fac;
-    std::vector<Z> _invfac;
-    std::vector<Z> _inv;
-    
+    std::vector<Z> _fac, _invfac, _inv;
+
     Comb() : _n{0}, _fac{1}, _invfac{1}, _inv{0} {}
     Comb(int n) : Comb() { init(n); }
-    
+
     void init(int m) {
-        m = std::min(m, Z::getMod() - 1);
+        m = std::min(m, P - 1);
         if (m <= _n) return;
         _fac.resize(m + 1);
         _invfac.resize(m + 1);
@@ -107,7 +80,7 @@ struct Comb {
         }
         _n = m;
     }
-    
+
     Z fac(int m) {
         if (m > _n) init(2 * m);
         return _fac[m];
@@ -130,9 +103,9 @@ Z big_choose(int n, int m) { // for large n
     m = min(m, n-m);
     Z res = 1;
     for (int v = n-m+1; v <= n; v++) {
-        res *= v;
+        res = res * v;
     }
-    res *= comb.invfac(m);
+    res = res * comb.invfac(m);
     return res;
 }
 
@@ -159,8 +132,8 @@ void solve() {
     int p = max(i, d);
     Z ans = 0;
     if (i == d) {
-        ans += comb.binom(p+h-1, p-1) * comb.binom(p+l, p); // i-d-...-i-d
-        ans += comb.binom(p+h, p) * comb.binom(p+l-1, p-1); // d-i-...-d-i
+        ans = ans + comb.binom(p+h-1, p-1) * comb.binom(p+l, p); // i-d-...-i-d
+        ans = ans + comb.binom(p+h, p) * comb.binom(p+l-1, p-1); // d-i-...-d-i
     } else {
         ans = comb.binom(p+h-1, p-1) * comb.binom(p+l-1, p-1);
     }

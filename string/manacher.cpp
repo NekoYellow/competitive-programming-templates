@@ -3,11 +3,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// p[i]-1 is the length of a palindrome centered i
 vector<int> manacher(const string& s) {
     string t = "#";
     for (auto c: s) t += c, t += '#';
     int n = t.size();
-    t = "$" + t + "^";
+    t = "*" + t + "^";
     vector<int> p(n+2);
     for (int i = 1, l = 1, r = 1; i <= n; i++) {
         p[i] = max(0, min(r-i, p[l + (r-i)]));

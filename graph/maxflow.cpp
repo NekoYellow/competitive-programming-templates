@@ -5,42 +5,30 @@ using ll = long long;
 const char nl = '\n';
 
 const int inf = numeric_limits<int>::max();
-
 class MF {
   public:
     MF(int _n, int _s, int _t) {
         n = _n; s = _s; t = _t;
-        head.resize(n);
-        fill(head.begin(), head.end(), -1);
+        head.assign(n, -1);
         dep.resize(n);
     }
-
     void addedge(int u, int v, int w) {
-        e.push_back({v, head[u], w, 0});
-        head[u] = e.size()-1;
-        e.push_back({u, head[v], 0, 0});
-        head[v] = e.size()-1;
+        e.push_back({v, head[u], w, 0}); head[u] = e.size()-1;
+        e.push_back({u, head[v], 0, 0}); head[v] = e.size()-1;
     }
-
     ll dinic() {
         ll maxflow = 0;
-        while (bfs()) {
-            cur = head;
-            maxflow += dfs(s, inf);
-        }
+        while (bfs()) cur = head, maxflow += dfs(s, inf);
         return maxflow;
     }
-
   private:
-    int n; // |V|
-    int s, t; // source, sink
+    int n, s, t; // |V|, source, sink
     struct Edge {
         int v, nxt, c, f; // to, next edge, capacity, flow
     };
     vector<Edge> e;
     vector<int> head; // linked forward repr
     vector<int> dep, cur; // for dfs
-
     bool bfs() {
         queue<int> q;
         fill(dep.begin(), dep.end(), 0);
@@ -50,15 +38,11 @@ class MF {
             int u = q.front(); q.pop();
             for (int i = head[u]; ~i; i = e[i].nxt) {
                 int v = e[i].v;
-                if (!dep[v] && e[i].c > e[i].f) {
-                    dep[v] = dep[u]+1;
-                    q.push(v);
-                }
+                if (!dep[v] && e[i].c > e[i].f) q.push(v), dep[v] = dep[u]+1;
             }
         }
         return dep[t]; // if t is reachable from s
     }
-
     int dfs(int u, int flow) {
         if (u == t || !flow) return flow;
         int ret = 0;
@@ -67,8 +51,7 @@ class MF {
             if (dep[v] == dep[u]+1) {
                 int d = dfs(v, min(flow-ret, e[i].c-e[i].f));
                 if (!d) continue;
-                e[i].f += d, e[i^1].f -= d;
-                ret += d;
+                e[i].f += d, e[i^1].f -= d; ret += d;
                 if (ret == flow) break;
             }
         }

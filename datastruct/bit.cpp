@@ -4,22 +4,6 @@ using namespace std;
 using ll = long long;
 const char nl = '\n';
 
-// vector<int> c(n+1, 0);
-// auto add = [&](int x, int val) {
-//     while (x <= n) {
-//         c[x] += val;
-//         x += x & -x;
-//     } 
-// };
-// auto query = [&](int x) {
-//     int res = 0;
-//     while (x) {
-//         res += c[x];
-//         x -= x & -x;
-//     }
-//     return res;
-// };
-
 template <class T>
 struct BIT {
     int n;
