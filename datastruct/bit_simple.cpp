@@ -3,6 +3,8 @@
 using namespace std;
 
 int main() {
+    int n;
+    // cin >> n;
     vector<int> c(n+1, 0);
     auto add = [&](int x, int val) {
         while (x <= n) {
