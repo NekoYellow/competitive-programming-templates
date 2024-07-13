@@ -1,69 +1,42 @@
-/* hdu-2544 */
-#include<bits/stdc++.h>
+// https://www.luogu.com.cn/problem/P4779
+#include <bits/stdc++.h>
 using namespace std;
+using ll = long long;
+const ll inf = 1e18;
 
-const int INF = 1e8, NUM = 1e5;
+signed main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+    
+    int n, m, s;
+    cin >> n >> m >> s; s--;
 
-struct edge {
-    int f, t, w; // from, to, weight
-    edge(int a, int b, int c): f(a), t(b), w(c) {}
-    edge(int a, int b): f(a), t(b), w(1) {}
-};
-vector<edge> G[NUM]; // adjacency table
+    vector<vector<pair<int, int>>> g(n);
+    while (m--) {
+        int u, v, w;
+        cin >> u >> v >> w; u--, v--;
+        g[u].push_back({v, w});
+    }
 
-struct node { // self-defined pair<int,int>; will be push into a pq
-    int id; // index; label
-    int dt; // distance to source
-    node(int a, int b): id(a), dt(b) {}
-    bool operator<(const node &o) const { return dt > o.dt; }
-};
+    vector<ll> dist(n, inf); dist[s] = 0;
+    vector<bool> vis(n, 0);
+    multiset<pair<ll, int>> pq; pq.emplace(make_pair(0, s));
 
-int n, m;
-int pre[NUM]; // store the previous node
-
-void print_path(int s, int t) { // print the shortest path from s to t
-    if (s == t) { cout << s << ' '; return; }
-    print_path(s, pre[t]);
-    cout << t << ' ';
-}
-
-void dijkstra() {
-    int s = 1; // source
-    int dis[NUM]; // dis[i] = distance from node i to s
-    bool vis[NUM]; // visited; vis[i] = true when the shortest path to i has been found
-    for (int i = 1; i <= n; i++) { dis[i] = INF; vis[i] = false; }
-    dis[s] = 0;
-    priority_queue<node> pq;
-    pq.push(node(s, dis[s]));
-    while(!pq.empty()) {
-        auto u = pq.top(); pq.pop();
-        if (vis[u.id]) continue;
-        vis[u.id] = true;
-        for (auto &y: G[u.id]) {
-            if (vis[y.t]) continue;
-            if (dis[y.t] > u.dt+y.w) {
-                dis[y.t] = u.dt+y.w;
-                pq.push(node(y.t, dis[y.t]));
-                pre[y.t] = u.id; // = y.f
+    while (pq.size()) {
+        auto [d, u] = *pq.begin(); pq.extract(pq.begin());
+        if (vis[u]) continue;
+        vis[u] = 1;
+        for (auto [v, w]: g[u]) {
+            if (vis[v]) continue;
+            if (d + w < dist[v]) {
+                dist[v] = d + w;
+                pq.emplace(make_pair(dist[v], v));
             }
         }
     }
-    cout << dis[n] << '\n';
-    // print_path(s, n);
-}
 
-int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
-    while (cin >> n >> m) {
-        if (n==0 && m==0) return 0;
-        for (int i = 1; i <= n; i++) G[i].clear();
-        while(m--) {
-            int a, b, c;
-            cin >> a >> b >> c;
-            G[a].push_back(edge(a, b, c));
-            G[b].push_back(edge(b, a, c));
-        }
-        dijkstra();
-    }
+    for (auto e: dist) cout << e << ' ';
+    cout << '\n';
+
+    return 0;
 }
