@@ -1,10 +1,11 @@
-import subprocess as sp
-import argparse
+# `python runner.py [A-Z]` to complie and run `in.txt > [A-Z].cpp` in windows
+from subprocess import call
+from argparse import ArgumentParser
 
-parser = argparse.ArgumentParser(usage="python runner.py [A-Z]")
-parser.add_argument("prog")
-args = parser.parse_args()
+p = ArgumentParser()
+p.add_argument('i')
+a = p.parse_args()
 
-sp.call(f"g++ {args.prog}.cpp -o {args.prog}")
-with open("in.txt", "r") as f:
-    sp.call(f"./{args.prog}.exe", stdin=f)
+call(f'g++ {a.i}.cpp -o {a.i}')
+with open('in.txt', 'r') as f:
+    call(f'./{a.i}.exe', stdin=f)
