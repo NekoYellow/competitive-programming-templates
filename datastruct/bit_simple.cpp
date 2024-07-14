@@ -2,15 +2,17 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main() {
-    int n; // cin >> n;
-    vector<int> c(n+1, 0);
-    auto add = [&](int x, int val) {
-        while (x <= n) c[x] += val, x += x & -x;
-    };
-    auto query = [&](int x) {
-        int res = 0;
-        while (x) res += c[x], x -= x & -x;
-        return res;
-    };
-}
+struct BIT {
+    int n;
+    vector<int> t;
+
+    BIT(int _n): n(_n) { t.assign(n+1, 0); }
+    void add(int x, int v) {
+        while (x <= n) t[x] += v, x += x & -x;
+    }
+    int query(int x) {
+        int r = 0;
+        while (x) r += t[x], x -= x & -x;
+        return r;
+    }
+};
