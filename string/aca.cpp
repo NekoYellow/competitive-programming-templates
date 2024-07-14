@@ -5,7 +5,7 @@ using namespace std;
 class ACA { // AC Automaton, minimal ver. Trie + fail tr (KMP on Trie)
   public:
     ACA(): t(1), cnt(1), pos(1) {} // same as trie
-    void insert(const string& s) { // trie.insert
+    void insert(const string& s) { // Insert a pattern to trie.
         int p = 0;
         for (auto c: s) {
             c -= 'a';
@@ -29,20 +29,20 @@ class ACA { // AC Automaton, minimal ver. Trie + fail tr (KMP on Trie)
             }
         }
     }
-    int query(const string& s) { // onetime-query of #occurences in total
+    int query(const string& s) { // Query for a given text s (irrevertable)
         int p = 0, res = 0;
         for (auto c: s) {
             p = t[p][c - 'a'];
             for (int i = p; i && ~cnt[i]; i = fail[i])
                 res += cnt[i], cnt[i] = -1;
         }
-        return res;
+        return res; // #occurence of all the patterns in text
     }
 
   private:
     static const int R = 26;
     vector<array<int, R>> t; // trie
-    vector<int> cnt, fail; // # of pat, fail transfer
+    vector<int> cnt, fail; // cnt of this pat, fail transfer
     int pos;
 };
 

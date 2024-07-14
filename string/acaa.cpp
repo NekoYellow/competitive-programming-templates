@@ -4,9 +4,9 @@ using namespace std;
 
 class ACA { // AC Automaton, augumented ver.
   public:
-    ACA(int _n): n(_n), t(1), cnt(1), pos(1), idx(1) {} // n : #pats
-    void insert(const string& s, int id) { // trie.insert  assert(id > 0)
-        int u = 0;
+    ACA(): n(0), t(1), cnt(1), pos(1), idx(1) {}
+    void insert(const string& s, int id) { // Insert a pattern (with id) to trie.
+        int u = 0; assert(id > 0);
         for (auto c: s) {
             c -= 'a';
             if (!t[u][c]) {
@@ -15,7 +15,7 @@ class ACA { // AC Automaton, augumented ver.
             }
             u = t[u][c];
         }
-        cnt[u]++; fir[id] = (idx[u] ? idx[u] : (idx[u] = id));
+        cnt[u]++; fir[id] = (idx[u] ? idx[u] : (idx[u] = id)); n = max(n, id);
     }
     void build() { // Build the fail tree. Call after all insertions
         deg.resize(t.size()); fail.resize(t.size());
@@ -30,7 +30,7 @@ class ACA { // AC Automaton, augumented ver.
             }
         }
     }
-    vector<int> query(const string& s) { // onetime-query of #occurence of each pat in s
+    vector<int> query(const string& s) { // Query for a given text s.
         vector<int> acc(pos, 0), ans(n, 0);
         for (int u = 0, i = 0; i < s.size(); i++)
             u = t[u][s[i] - 'a'], acc[u]++;
@@ -46,13 +46,13 @@ class ACA { // AC Automaton, augumented ver.
             if (!(--deg[v])) q.push(v);
         }
         for (int i = 0; i < n; i++) ans[i] = ans[fir[i+1]-1];
-        return ans;
+        return ans; // #occurence of each of the patterns in text
     }
 
   private:
-    int n; static const int R = 26;
+    static const int R = 26; int n; // #pat
     vector<array<int, R>> t; // trie
-    vector<int> cnt, idx; // cnt of pat, idx of pat (1-idx)
+    vector<int> cnt, idx; // cnt of this pat, idx of pat (1-idx)
     vector<int> deg, fail; //in degree, fail trans
     unordered_map<int, int> fir; // first index of a pat (in case of dup)
     int pos;
@@ -62,8 +62,8 @@ int main() {
     ios::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
 
+    ACA ac;
     int n; cin >> n;
-    ACA ac(n);
     for (int i = 1; i <= n; i++) {
         string s; cin >> s;
         ac.insert(s, i);
