@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}  % Linux, macOS: enable non-English characters
 \usepackage[british]{babel}
 \usepackage{fullpage}
+\usepackage[a4paper, top=1cm, margin=1.7cm]{geometry}  % set page margin
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -17,12 +18,13 @@
 \usepackage{tikz} \usetikzlibrary{trees}
 \usepackage{listings}
 \lstset{language=C++,
-	basicstyle=\footnotesize\ttfamily,
-	keywordstyle=\color[rgb]{0,0.5,0}\ttfamily,
-	stringstyle=\color{orange}\ttfamily,
-	commentstyle=\color{red}\ttfamily,
+	basicstyle=\color[rgb]{0,0.1,0.3}\small\ttfamily,
+	keywordstyle=\color{orange}\ttfamily\bfseries,
+	identifierstyle=\color[rgb]{0,0,0}\ttfamily\bfseries,
+	stringstyle=\color[rgb]{0,0.7,0.7}\ttfamily\bfseries,
+	commentstyle=\color{gray}\ttfamily,
 	tabsize=4,
-	numbers=left, numberstyle=\tiny, numbersep=5pt,
+	numbers=left, numberstyle=\tiny, numbersep=3pt,
 	breaklines=true,
 	breakatwhitespace=true,
 	prebreak={/},
@@ -86,8 +88,8 @@
 
 % UTILITY
 \begin{lstlisting}[caption={Spells.}]
-	#pragma GCC optimize("O2")
-	ios::sync_with_stdio(0); cin.tie(0);
+#pragma GCC optimize("O2")
+ios::sync_with_stdio(0); cin.tie(0);
 \end{lstlisting}
 
 \lstinputlisting[firstline=1, lastline=11, float=!ht, language=Python, caption={Runner Script.}]{../runner.py}
@@ -111,7 +113,7 @@
 \lstinputlisting[firstline=7, lastline=42, float=!ht, caption={Dijkstra Shortest Path.}]{../graph/dijkstra.cpp}
 
 
-\lstinputlisting[firstline=6, lastline=50, float=!ht, caption={KM Optimal Pairing.}]{../graph/km.cpp} % refactor
+\lstinputlisting[firstline=6, lastline=50, float=!ht, caption={KM Optimal Pairing.}]{../graph/km.cpp}
 
 
 \lstinputlisting[firstline=7, lastline=60, float=!ht, caption={Max flow.}]{../graph/maxflow.cpp}
