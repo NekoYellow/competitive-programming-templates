@@ -5,17 +5,16 @@ using namespace std;
 class ACA { // AC Automaton, augumented ver.
   public:
     ACA(): n(0), t(1), cnt(1), pos(1), idx(1) {}
-    void insert(const string& s, int id) { // Insert a pattern (with id) to trie.
-        int u = 0; assert(id > 0);
+    void insert(const string& s, int id) { // Insert a pattern to trie.
+        int u = 0; assert(id > 0); n = max(n, id);
         for (auto c: s) {
-            c -= 'a';
-            if (!t[u][c]) {
-                t.push_back(array<int, R>()); cnt.push_back(0); idx.push_back(0);
-                t[u][c] = pos++;
+            if (!t[u][c-'a']) {
+                t.push_back({}); cnt.push_back(0); idx.push_back(0);
+                t[u][c-'a'] = pos++;
             }
-            u = t[u][c];
+            u = t[u][c-'a'];
         }
-        cnt[u]++; fir[id] = (idx[u] ? idx[u] : (idx[u] = id)); n = max(n, id);
+        cnt[u]++; fir[id] = (idx[u] ? idx[u] : (idx[u] = id));
     }
     void build() { // Build the fail tree. Call after all insertions
         deg.resize(t.size()); fail.resize(t.size());
@@ -34,8 +33,7 @@ class ACA { // AC Automaton, augumented ver.
         vector<int> acc(pos, 0), ans(n, 0);
         for (int u = 0, i = 0; i < s.size(); i++)
             u = t[u][s[i] - 'a'], acc[u]++;
-        // topological traversal
-        queue<int> q;
+        queue<int> q; // topological traversal
         for (int i = 0; i < pos; i++)
             if (!deg[i]) q.push(i);
         while (q.size()) {
@@ -48,14 +46,11 @@ class ACA { // AC Automaton, augumented ver.
         for (int i = 0; i < n; i++) ans[i] = ans[fir[i+1]-1];
         return ans; // #occurence of each of the patterns in text
     }
-
   private:
-    static const int R = 26; int n; // #pat
+    static const int R = 26; int n, pos; // #pat, insert position
     vector<array<int, R>> t; // trie
-    vector<int> cnt, idx; // cnt of this pat, idx of pat (1-idx)
-    vector<int> deg, fail; //in degree, fail trans
+    vector<int> cnt, idx, deg, fail; // .., idx of pat (1-idx), in deg, ..
     unordered_map<int, int> fir; // first index of a pat (in case of dup)
-    int pos;
 };
 
 int main() {

@@ -18,7 +18,7 @@
 \usepackage{tikz} \usetikzlibrary{trees}
 \usepackage{listings}
 \lstset{language=C++,
-	basicstyle=\color[rgb]{0,0.5,0.8}\small\ttfamily\bfseries,
+	basicstyle=\color[rgb]{0,0.5,0.8}\normalsize\ttfamily\bfseries,
 	keywordstyle=\color{orange}\ttfamily\bfseries,
 	identifierstyle=\color[rgb]{0,0,0}\ttfamily\bfseries,
 	stringstyle=\color[rgb]{0,0.8,0.7}\ttfamily\bfseries,
@@ -107,20 +107,20 @@ ios::sync_with_stdio(0); cin.tie(0);
 \lstinputlisting[firstline=5, lastline=48, float=!ht, caption={Segment Tree supporting point modify and interval query.}]{../datastruct/seg_tree.cpp}
 
 
-\lstinputlisting[firstline=7, lastline=63, float=!ht, caption={Lazy-tag Segment Tree.}]{../datastruct/segment_tree.cpp}
+\lstinputlisting[firstline=7, lastline=54, float=!ht, caption={Lazy-tag Segment Tree.}]{../datastruct/segment_tree.cpp}
 
 
 \lstinputlisting[firstline=40, lastline=58, float=!ht, caption={DSU.}]{../datastruct/dsu.cpp}
 
 % GRAPH
-\lstinputlisting[firstline=7, lastline=42, float=!ht, caption={Dijkstra Shortest Path.}]{../graph/dijkstra.cpp}
+\lstinputlisting[firstline=9, lastline=38, float=!ht, caption={Kosaraju SCC.}]{../graph/scc.cpp}
 \addcontentsline{toc}{section}{Graph}
 
 
 \lstinputlisting[firstline=6, lastline=50, float=!ht, caption={KM Optimal Pairing.}]{../graph/km.cpp}
 
 
-\lstinputlisting[firstline=7, lastline=60, float=!ht, caption={Max flow.}]{../graph/maxflow.cpp}
+\lstinputlisting[firstline=7, lastline=53, float=!ht, caption={Max flow.}]{../graph/maxflow.cpp}
 
 
 \lstinputlisting[firstline=70, lastline=107, float=!ht, caption={Classic Lowest Common Ancestor.}]{../graph/lca.cpp}
@@ -129,14 +129,12 @@ ios::sync_with_stdio(0); cin.tie(0);
 \lstinputlisting[firstline=5, lastline=43, float=!ht, caption={Tarjan Lowest Common Ancestor.}]{../graph/lca.cpp}
 
 
-\lstinputlisting[firstline=9, lastline=38, float=!ht, caption={Kosaraju SCC.}]{../graph/scc.cpp}
+\lstinputlisting[firstline=7, lastline=42, float=!ht, caption={Dijkstra Shortest Path.}]{../graph/dijkstra.cpp}
 
 % MATH
-\lstinputlisting[firstline=5, lastline=28, float=!ht, caption={Bezout's Lemma.}]{../math/bezout_lemma.cpp}
+\lstinputlisting[firstline=7, lastline=14, float=!ht, caption={Binary Power.}]{../math/comb.cpp}
 \addcontentsline{toc}{section}{Math}
 
-
-\lstinputlisting[firstline=7, lastline=14, float=!ht, caption={Binary Power.}]{../math/comb.cpp}
 
 \lstinputlisting[firstline=16, lastline=58, float=!ht, caption={Mod P Integer.}]{../math/comb.cpp}
 
@@ -144,17 +142,20 @@ ios::sync_with_stdio(0); cin.tie(0);
 \lstinputlisting[firstline=59, lastline=99, float=!ht, caption={Combinations.}]{../math/comb.cpp}
 
 
+\lstinputlisting[firstline=5, lastline=13, float=!ht, caption={Exgcd.}]{../math/exgcd.cpp}
+
 \lstinputlisting[firstline=7, lastline=44, float=!ht, caption={Chinese Remainder Thm.}]{../math/crt.cpp}
 
-\lstinputlisting[firstline=5, lastline=13, float=!ht, caption={Exgcd.}]{../math/exgcd.cpp}
+
+\lstinputlisting[firstline=9, lastline=22, float=!ht, caption={Prime Sieve.}]{../math/prime_sieve.cpp}
+
+\lstinputlisting[firstline=5, lastline=28, float=!ht, caption={Bezout's Lemma.}]{../math/bezout_lemma.cpp}
 
 
 \lstinputlisting[firstline=7, lastline=39, float=!ht, caption={Mobius Inversion.}]{../math/mobius_inv.cpp}
 
-\lstinputlisting[firstline=9, lastline=22, float=!ht, caption={Prime Sieve.}]{../math/prime_sieve.cpp}
-
-
 \lstinputlisting[firstline=16, lastline=25, float=!ht, caption={Recurrsion Acceleration.}]{../math/rec_acc.cpp}
+
 
 % MISC
 \lstinputlisting[firstline=37, lastline=59, float=!ht, caption={2-SAT.}]{../misc/2sat.cpp}
@@ -175,7 +176,7 @@ ios::sync_with_stdio(0); cin.tie(0);
 \lstinputlisting[firstline=5, lastline=47, float=!ht, caption={AC Automaton to get total \#occurence.}]{../string/aca.cpp}
 
 
-\lstinputlisting[firstline=5, lastline=59, float=!ht, caption={AC Automaton to get every \#occurence.}]{../string/acaa.cpp}
+\lstinputlisting[firstline=5, lastline=54, float=!ht, caption={AC Automaton to get every \#occurence.}]{../string/acaa.cpp}
 
 
 \lstinputlisting[firstline=6, lastline=19, float=!ht, caption={Manacher to find palindromes.}]{../string/manacher.cpp}

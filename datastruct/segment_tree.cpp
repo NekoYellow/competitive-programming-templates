@@ -11,18 +11,13 @@ struct ST {
     /* TO FILL IN */
     const T e = 0;
     const bool acc = true; // accumulative (add or set on modification)
-    T op(T a, T b) {
-        return a + b;
-    }
-    T pow(T a, int n) {
-        return a * n;
-    }
+    T op(T a, T b) { return a + b; }
+    T pow(T a, int n) { return a * n; }
     ST(int _n) : n(_n) {
         int i = 1;
         while (i < n) i <<= 1;
         size = (i << 1) - 1;
-        tree.assign(size, e);
-        tag.assign(size, e);
+        tree.assign(size, e); tag.assign(size, e);
     }
     void pushdown(int c, int cmin, int cmax) {
         if (tag[c] == e) return;
@@ -46,9 +41,7 @@ struct ST {
         update(c * 2 + 2, cmid + 1, cmax, lo, hi, v);
         tree[c] = op(tree[c * 2 + 1], tree[c * 2 + 2]);
     }
-    void update(int lo, int hi, T v) {
-        update(0, 0, size / 2, lo, hi, v);
-    }
+    void update(int lo, int hi, T v) { update(0, 0, size / 2, lo, hi, v); }
     T query(int c, int cmin, int cmax, int lo, int hi) {
         pushdown(c, cmin, cmax);
         if (cmin >= lo && cmax <= hi) return tree[c];
@@ -57,9 +50,7 @@ struct ST {
         return op(query(c * 2 + 1, cmin, cmid, lo, hi),
                 query(c * 2 + 2, cmid + 1, cmax, lo, hi));
     }
-    T query(int lo, int hi) {
-        return query(0, 0, size / 2, lo, hi);
-    }
+    T query(int lo, int hi) { return query(0, 0, size / 2, lo, hi); }
 };
 
 int main() {

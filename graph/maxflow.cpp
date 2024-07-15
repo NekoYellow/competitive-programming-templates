@@ -4,13 +4,10 @@ using namespace std;
 using ll = long long;
 const char nl = '\n';
 
-const int inf = numeric_limits<int>::max();
 class MF {
   public:
-    MF(int _n, int _s, int _t) {
-        n = _n; s = _s; t = _t;
-        head.assign(n, -1);
-        dep.resize(n);
+    MF(int _n, int _s, int _t): n(_n), s(_s), t(_t) {
+        head.assign(n, -1); dep.resize(n);
     }
     void addedge(int u, int v, int w) {
         e.push_back({v, head[u], w, 0}); head[u] = e.size()-1;
@@ -22,18 +19,14 @@ class MF {
         return maxflow;
     }
   private:
+    static const int inf = numeric_limits<int>::max();
     int n, s, t; // |V|, source, sink
-    struct Edge {
-        int v, nxt, c, f; // to, next edge, capacity, flow
-    };
-    vector<Edge> e;
-    vector<int> head; // linked forward repr
+    struct Edge { int v, nxt, c, f; }; // to, next edge, capacity, flow
+    vector<Edge> e; vector<int> head; // linked forward repr
     vector<int> dep, cur; // for dfs
     bool bfs() {
-        queue<int> q;
-        fill(dep.begin(), dep.end(), 0);
-        dep[s] = 1;
-        q.push(s);
+        queue<int> q; q.push(s);
+        fill(dep.begin(), dep.end(), 0); dep[s] = 1;
         while (q.size()) {
             int u = q.front(); q.pop();
             for (int i = head[u]; ~i; i = e[i].nxt) {
