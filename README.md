@@ -1,7 +1,5 @@
 # competitive-programming-templates
 
-Common dsa templates in competitive programming. Trying to exploit new features in c++ as much as possible.
+Common algorithm & data structure templates for competitive programming, implemented in object-oriented style C++20. Trying to make the code neat and readable besides achieving efficiency.
 
-Also a few basic data structures implemented in python at [pyds](https://github.com/NekoYellow/competitive-programming-templates/tree/main/pyds).
-
-Still updating
+Most templates contain a link to the source problem for quick varification.
