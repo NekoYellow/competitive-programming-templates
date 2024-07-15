@@ -82,6 +82,8 @@
 
 \begin{document}
 
+% \tableofcontents
+
 \include{preface}
 \maketitle
 % \newpage
@@ -92,13 +94,14 @@
 ios::sync_with_stdio(0); cin.tie(0);
 \end{lstlisting}
 
-\lstinputlisting[firstline=1, lastline=11, float=!ht, language=Python, caption={Runner Script.}]{../runner.py}
+\lstinputlisting[firstline=1, lastline=11, float=!ht, language=Python, caption={Runner Script.}, label={lst:Runner}]{../runner.py}
 
 % DATA STRUCTURE
-\lstinputlisting[firstline=40, lastline=58, float=!ht, caption={1-indexed BIT.}]{../datastruct/bit.cpp}
+\lstinputlisting[firstline=40, lastline=58, float=!ht, caption={1-indexed BIT.}, label={lst:BIT}]{../datastruct/bit.cpp}
 
 
 \lstinputlisting[firstline=7, lastline=50, float=!ht, caption={Trie of 01-strings.}]{../datastruct/01trie.cpp}
+\addcontentsline{toc}{section}{Data Structure}
 
 
 \lstinputlisting[firstline=5, lastline=48, float=!ht, caption={Segment Tree supporting point modify and interval query.}]{../datastruct/seg_tree.cpp}
@@ -111,6 +114,7 @@ ios::sync_with_stdio(0); cin.tie(0);
 
 % GRAPH
 \lstinputlisting[firstline=7, lastline=42, float=!ht, caption={Dijkstra Shortest Path.}]{../graph/dijkstra.cpp}
+\addcontentsline{toc}{section}{Graph}
 
 
 \lstinputlisting[firstline=6, lastline=50, float=!ht, caption={KM Optimal Pairing.}]{../graph/km.cpp}
@@ -126,6 +130,7 @@ ios::sync_with_stdio(0); cin.tie(0);
 
 % MATH
 \lstinputlisting[firstline=5, lastline=28, float=!ht, caption={Bezout's Lemma.}]{../math/bezout_lemma.cpp}
+\addcontentsline{toc}{section}{Math}
 
 
 \lstinputlisting[firstline=7, lastline=14, float=!ht, caption={Binary Power.}]{../math/comb.cpp}
@@ -150,6 +155,7 @@ ios::sync_with_stdio(0); cin.tie(0);
 
 % MISC
 \lstinputlisting[firstline=37, lastline=59, float=!ht, caption={2-SAT.}]{../misc/2sat.cpp}
+\addcontentsline{toc}{section}{Misc}
 
 \lstinputlisting[firstline=1, lastline=17, float=!ht, caption={Binary Search.}]{../misc/binary_search.cpp}
 
@@ -158,6 +164,7 @@ ios::sync_with_stdio(0); cin.tie(0);
 
 % STRING
 \lstinputlisting[firstline=5, lastline=16, float=!ht, caption={Prefix Function in KMP.}]{../string/kmp.cpp}
+\addcontentsline{toc}{section}{String}
 
 \lstinputlisting[firstline=6, lastline=21, float=!ht, caption={Z Algorithm.}]{../string/z_algo.cpp}
 
@@ -171,5 +178,6 @@ ios::sync_with_stdio(0); cin.tie(0);
 \lstinputlisting[firstline=6, lastline=19, float=!ht, caption={Manacher to find palindromes.}]{../string/manacher.cpp}
 
 \lstinputlisting[firstline=5, lastline=34, float=!ht, caption={Trie.}]{../string/trie.cpp}
+
 
 \end{document}
