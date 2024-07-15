@@ -3,10 +3,10 @@
 using namespace std;
 using ll = long long;
 
-class KM { // Hungarian
+class KM { // Also Hungarian; find optimal matching on a bipartite graph {S, T}
   public:
     KM(int _n): n(_n) { e.assign(n+1, vector<ll>(n+1, -inf)); }
-    void addedge(int u, int v, int w) { e[u][v] = w; }
+    void addedge(int u, int v, int w) { e[u][v] = w; } // u, v > 0 $(u \in S, v \in T)$
     ll km() { // do matching and return the optimal sum of matching
         lx.assign(n+1, 0); ly.assign(n+1, 0);
         couple.assign(n+1, -1);
@@ -19,14 +19,14 @@ class KM { // Hungarian
   private:
     // -inf should be small enough to prevent nonexistent edges from being chosen
     const ll inf = 1e18;
-    int n; // #vertices in each set
+    int n; // $max(|S|, |T|)$
     vector<vector<ll>> e; // adjacent matrix
-    vector<ll> lx, ly; // weight on vertices  $l(u)+l(v) \le w(u, v)$
-    vector<int> couple; // couple[y] := optimal matching of y
+    vector<ll> lx, ly; // weight on vertices $(l(u)+l(v) \le w(u, v))$
+    vector<int> couple; // couple[y] := optimal matching of y $(y \in T)$
     void match(int u) {
         vector<int> pre(n+1, 0);
         vector<ll> slack(n+1, inf);
-        vector<bool> vis(n+1, 0); // vis[y]: if matching of y is found
+        vector<bool> vis(n+1, 0); // vis[y]: if matching of y is found $(y \in T)$
         int y = 0;
         couple[y] = u;
         do {
@@ -44,7 +44,7 @@ class KM { // Hungarian
                 else slack[i] -= md;
             }
             y = ny;
-        } while (~couple[y]);
+        } while (couple[y] != -1);
         for (; y; y = pre[y]) couple[y] = couple[pre[y]];
     }
 };
