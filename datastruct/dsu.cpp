@@ -35,6 +35,30 @@ struct DSU {
     }
 };
 
+namespace Simple {
+
+struct DSU {
+    vector<int> par, sz;
+    DSU(int n) {
+        par.resize(n); iota(par.begin(), par.end(), 0);
+        sz.assign(n, 1);
+    }
+    int find(int x) {
+        return (x == par[x] ? x : (par[x] = find(par[x])));
+    }
+    void merge(int x, int y) {
+        int rx = find(x), ry = find(y);
+        if (rx != ry) {
+            if (sz[rx] < sz[ry]) par[rx] = ry, sz[ry] += sz[rx];
+            else par[ry] = rx, sz[rx] += sz[ry];
+        }
+    }
+};
+
+
+
+};
+
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
