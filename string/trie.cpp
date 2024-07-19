@@ -2,35 +2,27 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class Trie {
-  public:
+struct Trie {
+    static const int R = 26; int pos;
+    vector<array<int, R>> t; vector<int> cnt;
     Trie(): t(1), cnt(1), pos(1) {}
     void insert(const string& s) {
         int p = 0;
-        for (auto c: s) {
-            c -= 'a';
-            if (!t[p][c]) {
-                t.push_back(array<int, R>()); cnt.push_back(0);
+        for (auto c: s) { c -= 'a';
+            if (!t[p][c])
+                t.push_back(array<int, R>()), cnt.push_back(0),
                 t[p][c] = pos++;
-            }
             p = t[p][c];
         }
         cnt[p]++;
     }
     int find(const string& s) {
         int p = 0;
-        for (auto c: s) {
-            c -= 'a';
-            if (!t[p][c]) return 0;
-            p = t[p][c];
+        for (auto c: s) { c -= 'a';
+            if (!t[p][c]) return 0; else p = t[p][c];
         }
         return cnt[p]++; // count time mentioned; typically return cnt[p]
     }
-  private:
-    static const int R = 26;
-    vector<array<int, R>> t;
-    vector<int> cnt;
-    int pos;
 };
 
 int main() {
