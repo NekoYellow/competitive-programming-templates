@@ -1,50 +1,63 @@
-/* POJ-2406 Multi-Key Prefix Hash */
-#include <iostream>
-#include <algorithm>
-#define FI first
-#define SE second
+// https://acm.hdu.edu.cn/showproblem.php?pid=7433
+#include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-#define PLL pair<ll,ll>
-const int N = 1e6+10;
-const PLL B = make_pair(37, 131), M = make_pair(1e9+7, 998244353);
+using ll = long long;
+using pll = pair<ll, ll>;
 
-PLL p[N];
+struct Base { // polynomial and module base
+    const array<ll, 2> p{37, 233}, m{998244353, 1000000007};
+    vector<array<ll, 2>> pw; // powers of p
+    Base(int n) : pw(n+1) {
+        for (int j = 0; j < 2; j++) {
+            pw[0][j] = 1;
+            for (int i = 0; i < n; i++)
+                pw[i+1][j] = pw[i][j]*p[j] % m[j];
+        }
+    }
+};
+class Hash { // string hash
+  public:
+    Hash(const string& s) : n(s.size()), b(n), h(n+1) {
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < 2; j++)
+                h[i+1][j] = h[i][j]*b.p[j] % b.m[j] + s[i];
+    }
+    const pll get(int l, int r) { // get hash(s[l..r])
+        assert(0 <= l && l <= r && r < n);
+        array<ll, 2> res;
+        for (int j = 0; j < 2; j++) {
+            res[j] = h[r+1][j] - h[l][j]*b.pw[r-l+1][j] % b.m[j];
+            res[j] = (res[j] + b.m[j]) % b.m[j];
+        }
+        return {res[0], res[1]};
+    }
+  private:
+    int n; Base b;
+    vector<array<ll, 2>> h;
+};
+
+void solve() { // count how many substrs of t are in cycle(s)
+    string s, t;
+    cin >> s >> t;
+    int n = s.size(), m = t.size();
+
+    Hash hs(s+s), ht(t);
+    set<pll> pat; // cycle(s)
+    for (int i = 0; i < n; i++) {
+        pat.emplace(hs.get(i, i+n-1));
+    }
+
+    int ans = 0;
+    for (int i = 0; i < m-n+1; i++) { // length-n substrs of t
+        ans += pat.count(ht.get(i, i+n-1));
+    }
+    cout << ans << '\n';
+}
 
 int main() {
     ios::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
-    string s;
-    while (1) {
-        cin >> s;
-        if (s == ".") break;
-        int n = s.size();
-        p[0] = make_pair(0, 0);
-        for (int i = 1; i <= n; i++) {
-            p[i].FI = (p[i-1].FI*B.FI + s[i-1])%M.FI;
-            p[i].SE = (p[i-1].SE*B.SE + s[i-1])%M.SE;
-        }
-        PLL c = make_pair(1, 1);
-        int l = 1;
-        for (; l*2 <= n; l++) {
-            c.FI = c.FI*B.FI%M.FI; c.SE = c.SE*B.SE%M.SE;
-            if (n%l) continue;
-            bool flag = true;
-            for (int i = l; i <= n-l; i += l) {
-                ll h1 = p[i+l].FI - p[i].FI * c.FI % M.FI;
-                if (h1 < 0) h1 += M.FI;
-                if (p[l].FI != h1) flag = false;
-                ll h2 = p[i+l].SE - p[i].SE * c.SE % M.SE;
-                if (h2 < 0) h2 += M.SE;
-                if (p[l].SE != h2) flag = false;
-                if (!flag) break;
-            }
-            if (flag) {
-                cout << n/l << '\n';
-                break;
-            }
-        }
-        if (l*2 > n) cout << "1\n";
-    }
+    cin.tie(0);
+    int t; cin >> t;
+    while (t--) solve();
     return 0;
 }
