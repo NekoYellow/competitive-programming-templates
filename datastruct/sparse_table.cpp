@@ -18,7 +18,6 @@ void init(const vector<int> &v) { // $\Theta(n\log n)$
             st[i][j] = max(st[i][j-1], st[i+pj][j-1]);
     }
 }
-
 int query(int l, int r) { // $\Theta(1)$
     int q = lg[r-l+1];
     return max(st[l][q], st[r-(1<<q)+1][q]);
