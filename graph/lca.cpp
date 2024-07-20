@@ -67,7 +67,7 @@ int main() {
 
 namespace Alter {
 
-class BinMul { // Answer LCAs Online. $O(nlogn) + O(qlogn)$
+class BinMul { // Answer LCAs Online. $O(n\log n) + O(q\log n)$
   public:
     BinMul(int _n): n(_n), g(_n), dep(_n) {
         array<int, B> a; a.fill(-1);

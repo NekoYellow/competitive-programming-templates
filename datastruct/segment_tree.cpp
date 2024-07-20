@@ -5,7 +5,7 @@ using ll = long long;
 const char nl = '\n';
 
 template <class T>
-struct ST {
+struct SegTree {
     int n, size;
     vector<T> tree, tag;
     /* TO FILL IN */
@@ -13,7 +13,7 @@ struct ST {
     const bool acc = true; // accumulative (add or set on modification)
     T op(T a, T b) { return a + b; }
     T pow(T a, int n) { return a * n; }
-    ST(int _n) : n(_n) {
+    SegTree(int _n) : n(_n) {
         int i = 1;
         while (i < n) i <<= 1;
         size = (i << 1) - 1;
@@ -59,7 +59,7 @@ int main() {
 
     int n, q;
     cin >> n >> q;
-    ST<ll> st(n);
+    SegTree<ll> st(n);
     for (int i = 0; i < n; i++) {
         int a;
         cin >> a;
