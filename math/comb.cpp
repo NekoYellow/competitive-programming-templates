@@ -4,12 +4,9 @@ using namespace std;
 using ll = long long;
 const char nl = '\n';
 
-template<class T>
-constexpr T power(T a, ll n) {
+template<class T> constexpr T power(T a, ll n) {
     T res = 1;
-    for (; n; a = a*a, n >>= 1) {
-        if (n & 1) res = res*a;
-    }
+    for (; n; a = a*a, n >>= 1) if (n & 1) res = res*a;
     return res;
 }
 
@@ -53,7 +50,6 @@ struct MInt {
         return lhs.val() != rhs.val();
     }
 };
-/* TO FILL IN */
 constexpr int P = 998244353;
 using Z = MInt<P>;
 
