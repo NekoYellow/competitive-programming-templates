@@ -2,13 +2,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class SAM { // Compression of all substrings of a given string
+class SAM { // link forms a tree, nxt forms a dag
     static const char M = 26, B = 'A';
     int sz, last;
     // i represents a class of substrs sharing the same set of endpos,
     // of length ranging from len[link[i]] + 1 to len[i].
     vector<int> len, link, cnt; // dfs on rev(link) to get cnt of substrs
-    vector<array<int, M>> nxt; // trie of substrs
+    vector<array<int, M>> nxt; // can perform matching as if on trie
     void extend(char c) {
         c -= B;
         int cur = sz++;
