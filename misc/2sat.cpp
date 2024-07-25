@@ -35,9 +35,10 @@ struct SCC { // Kosaraju
 };
 
 struct TwoSat {
-  public:
-    TwoSat() : _n(0), scc(0) {}
-    TwoSat(int n) : _n(n), _answer(n), scc(2 * n) {}
+    int n;
+    SCC scc;
+    vector<bool> ans;
+    TwoSat(int n) : n(n), ans(n), scc(2 * n) {}
     // constraints &&= (b[i] == f) or (b[j] == g)
     void add_clause(int i, bool f, int j, bool g) {
         scc.addedge(2 * i + (f ? 0 : 1), 2 * j + (g ? 1 : 0));
@@ -45,17 +46,12 @@ struct TwoSat {
     }
     bool satisfiable() {
         auto id = scc.getscc();
-        for (int i = 0; i < _n; i++) {
+        for (int i = 0; i < n; i++) {
             if (id[2 * i] == id[2 * i + 1]) return false;
-            _answer[i] = id[2 * i] < id[2 * i + 1];
+            ans[i] = id[2 * i] < id[2 * i + 1];
         }
         return true;
     }
-    vector<bool> answer() { return _answer; }
-  private:
-    int _n;
-    vector<bool> _answer;
-    SCC scc;
 };
 
 signed main() {
@@ -76,7 +72,7 @@ signed main() {
         cout << "IMPOSSIBLE\n";
     } else {
         cout << "POSSIBLE\n";
-        for (int e: sat.answer())
+        for (int e: sat.ans)
             cout << e << ' ';
         cout << nl;
     }
