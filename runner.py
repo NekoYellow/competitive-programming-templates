@@ -3,9 +3,9 @@ from subprocess import call
 from argparse import ArgumentParser
 
 p = ArgumentParser()
-p.add_argument('i')
+p.add_argument('prog')
 a = p.parse_args()
 
-call(f'g++ {a.i}.cpp -o {a.i}')
+call(['g++', a.prog+'.cpp', '-o', a.prog, '-std=c++20'])
 with open('in.txt', 'r') as f:
-    call(f'./{a.i}.exe', stdin=f)
+    call(f'./{a.prog}.exe', stdin=f)
