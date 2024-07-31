@@ -5,7 +5,7 @@ using ll = long long;
 const char nl = '\n';
 
 template <class T>
-struct BIT {
+struct BIT { // Fenwick, 0-indexed
     int n;
     vector<T> tree;
     /* TO FILL IN */
@@ -35,25 +35,26 @@ struct BIT {
     }
 };
 
-namespace Simple {
+namespace Simple { // 1-indexed
 
-template <class T>
-struct BIT {
-    int n;
-    vector<T> t;
+const int N = 2e6 + 1;
 
-    BIT(int _n): n(_n) { t.assign(n+1, 0); }
-    void add(int x, T v) {
-        while (x <= n) t[x] += v, x += x & -x;
-    }
-    T query(int x) {
-        T r = 0;
-        while (x) r += t[x], x -= x & -x;
-        return r;
-    }
-};
+int n;
+ll bit[N];
 
+void add(int i, ll v) {
+    for (; i <= n; i += i & -i) bit[i] += v;
+}
 
+ll query(int i) {
+    ll res = 0;
+    for (; i; i -= i & -i) res += bit[i];
+    return res;
+}
+
+ll query(int l, int r) {
+    return query(r) - query(l-1);
+}
 
 
 };
