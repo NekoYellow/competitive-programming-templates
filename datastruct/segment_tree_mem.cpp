@@ -8,9 +8,9 @@ const int N = 2e5 + 3, M = 998244353;
 
 int inv[N];
 
-// tree chain-decomposition
-// Decompose tree to non-overlapping chains.
-// Vertices on a chain have continuous dfn, enabling range ops.
+// Heavy-path Decomposition.
+// Decompose tree to non-overlapping chains (paths)
+// Vertices on a chain have continuous dfn, enabling range ops
 
 int fa[N]; vector<int> ch[N];
 int sz[N], hson[N], top[N], val[N], dfn[N], ord;
@@ -36,7 +36,7 @@ void dfs2(int u, int tp) {
     }
 }
 
-// segment tree (single & range assignment)
+// segment tree with memory (single & range assignment)
 
 int mem[N<<2], tr[N<<2]; bitset<(N<<2)> tag;
 
