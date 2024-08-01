@@ -28,18 +28,18 @@ void find_bridge() {
         if (!dfn[i]) tarjan(i, 0);
 }
 
-int c[N], dcc;
+int c[N], bcc;
 void dfs(int u) {
-    c[u] = dcc;
+    c[u] = bcc;
     for (int i = head[u]; i; i = nxt[i]) {
         int v = ver[i];
         if (c[v] || bridge[i]) continue;
         dfs(v);
     }
 }
-void find_dcc() {
+void find_bcc() {
     for (int i = 1; i <= n; i++)
-        if (!c[i]) ++dcc, dfs(i);
+        if (!c[i]) ++bcc, dfs(i);
 }
 
 vector<int> ans[N];
@@ -53,13 +53,13 @@ signed main() {
         int u, v; cin >> u >> v;
         add(u, v), add(v, u);
     }
-    find_bridge(); find_dcc();
+    find_bridge(); find_bcc();
 
     for (int u = 1; u <= n; u++) {
         ans[c[u]].push_back(u);
     }
-    cout << dcc << '\n';
-    for (int i = 1; i <= dcc; i++) {
+    cout << bcc << '\n';
+    for (int i = 1; i <= bcc; i++) {
         cout << ans[i].size();
         for (auto u: ans[i]) cout << ' ' << u;
         cout << '\n';
