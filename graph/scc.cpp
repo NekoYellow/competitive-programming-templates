@@ -1,101 +1,101 @@
-// https://codeforces.com/gym/103931/problem/M
-// Using SCC to merge vertices and reduce graph to rag in order to do dfs
+// https://www.luogu.com.cn/problem/P3387
 #include <bits/stdc++.h>
 using namespace std;
-using ll = long long;
-const char nl = '\n';
-#define watch(x) cout << (#x) << ": " << (x) << endl
 
-struct SCC { // Kosaraju
-  public:
-    SCC(int _n) : n(_n), vis(_n), g(_n), rg(_n) { color.assign(_n, -1); }
-    void addedge(int from, int to) {
-        g[from].push_back(to), rg[to].push_back(from);
-    }
-    vector<int> getscc() { // return color assignment
-        for (int i = 0; i < n; ++i)
-            if (!vis[i]) dfs1(i);
-        int sccCnt = 0;
-        for (int i = n-1; i > -1; --i) {
-            if (color[s[i]] == -1) dfs2(s[i], sccCnt++);
-        }
-        return color;
-    }
-  private:
-    int n;
-    vector<bool> vis;
-    vector<int> color, s;
-    vector<vector<int>> g, rg;
-    void dfs1(int u) {
-        vis[u] = true;
-        for (int v : g[u]) if (!vis[v]) dfs1(v);
-        s.push_back(u);
-    }
-    void dfs2(int u, int c) {
-        color[u] = c;
-        for (int v : rg[u]) if (color[v] == -1) dfs2(v, c);
-    }
-};
+const int N = 2e4 + 10;
 
-void solve() {
-    int n, m;
-    cin >> n >> m;
-    vector<int> a(n);
-    vector<set<int>> G(n), g(n);
-    SCC scc(n);
-
-    while (m--) {
-        for (int i = 0; i < n; i++) {
-            cin >> a[i];
-            a[i]--;
-            if (i > 0) {
-                G[a[i-1]].emplace(a[i]);
-                scc.addedge(a[i-1], a[i]);
-            }
-        }
-    }
-
-    auto&& color = scc.getscc();
-
-    for (int i = 0; i < n; i++) {
-        for (auto v: G[i]) {
-            if (color[i] == color[v]) continue;
-            g[color[i]].emplace(color[v]);
-        }
-    }
-
-
-    map<int, int> colorsz;
-    for (int i = 0; i < n; i++) {
-        colorsz[color[i]]++;
-    }
-
-    vector<int> sz(n, -1);
-
-    auto dfs = [&](auto self, int u)->int {
-        if (~sz[u]) return sz[u];
-        int res = colorsz[u];
-        for (auto v: g[u]) {
-            res += self(self, v);
-        }
-        return sz[u] = res;
-    };
-
-    for (int i = 0; i < n; i++) {
-        if (sz[color[i]] == -1) dfs(dfs, color[i]);
-        cout << sz[color[i]]-1 << ' ';
-    }
-    cout << nl;
-
+int n, m; vector<int> g[N], rg[N];
+void add(int u, int v) {
+    g[u].push_back(v), rg[v].push_back(u);
+}
+// Kosaraju
+int scc, col[N], stk[N], tp; bool vis[N];
+void dfs1(int u) {
+    vis[u] = true;
+    for (int v : g[u]) if (!vis[v]) dfs1(v);
+    stk[++tp] = u;
+}
+void dfs2(int u, int c) {
+    col[u] = c;
+    for (int v : rg[u]) if (!col[v]) dfs2(v, c);
+}
+void find_scc() {
+    for (int u = 1; u <= n; ++u) if (!vis[u]) dfs1(u);
+    for (; tp; tp--) if (!col[stk[tp]]) dfs2(stk[tp], ++scc);
 }
 
-signed main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
-    int t = 1;
-    // cin >> t;
-    while (t--) {
-        solve();
+
+namespace Tarjan {
+
+int dfn[N], low[N], ord, stk[N], tp; bool instack[N];
+int scc, col[N], sz[N];
+
+void tarjan(int u) {
+    low[u] = dfn[u] = ++ord, stk[++tp] = u, instack[u] = 1;
+    for (auto v: g[u]) {
+        if (!dfn[v]) {
+            tarjan(v);
+            low[u] = min(low[u], low[v]);
+        } else if (instack[v]) {
+            low[u] = min(low[u], dfn[v]);
+        }
     }
+    if (dfn[u] == low[u]) {
+        scc++;
+        while (stk[tp] != u) {
+            col[stk[tp]] = scc;
+            sz[scc]++;
+            instack[stk[tp--]] = 0;
+        }
+        col[stk[tp]] = scc;
+        sz[scc]++;
+        instack[stk[tp--]] = 0;
+    }
+}
+
+
+} // namespace Tarjan
+
+
+int a[N], deg[N], dp[N];
+
+signed main() {
+    cin.tie(0)->sync_with_stdio(0);
+
+    cin >> n >> m;
+    for (int i = 1; i <= n; i++) {
+        cin >> a[i];
+    }
+    for (; m; m--) {
+        int u, v;
+        cin >> u >> v;
+        add(u, v);
+    }
+    find_scc();
+    
+    for (int u = 1; u <= n; u++) {
+        a[n + col[u]] += a[u];
+        for (auto v: g[u]) {
+            if (col[u] == col[v]) continue;
+            // g[n + col[u]].push_back(n + col[v]);
+            rg[n + col[v]].push_back(n + col[u]);
+            deg[n + col[u]]++;
+        }
+    }
+
+    queue<int> q;
+    for (int i = 1; i <= scc; i++) {
+        if (!deg[n+i]) q.push(n+i), dp[n+i] = a[n+i];
+    }
+    while (q.size()) {
+        int u = q.front(); q.pop();
+        for (auto v: rg[u]) {
+            dp[v] = max(dp[v], dp[u] + a[v]);
+            if (!(--deg[v])) q.push(v);
+        }
+    }
+
+    cout << *max_element(dp+n+1, dp+n+scc+1) << '\n';
+
     return 0;
 }

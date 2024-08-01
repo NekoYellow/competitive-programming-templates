@@ -13,7 +13,7 @@ int inv[N];
 // Vertices on a chain have continuous dfn, enabling range ops.
 
 int fa[N]; vector<int> ch[N];
-int sz[N], hson[N], top[N], val[N], dfn[N], cnt;
+int sz[N], hson[N], top[N], val[N], dfn[N], ord;
 
 void dfs1(int u) {
     sz[u] = 1;
@@ -25,7 +25,7 @@ void dfs1(int u) {
 }
 
 void dfs2(int u, int tp) {
-    dfn[u] = ++cnt;
+    dfn[u] = ++ord;
     top[u] = tp;
     if (hson[u]) {
         val[dfn[u]] = 1ll * sz[hson[u]] * inv[sz[u]] % M; // value to maintain
