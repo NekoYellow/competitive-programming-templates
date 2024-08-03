@@ -76,13 +76,13 @@ class SegTree {
         t[pos] = op(t[pos*2], t[pos*2+1]);
     }
     T query(int pos, int pl, int pr, int l, int r) {
-        if (l <= pl && pr <= r) {
+        if (l == pl && pr == r) {
             return t[pos];
         }
         int m = (pl + pr)/2;
         if (r <= m) return query(pos*2, pl, m, l, r);
-        if (r > m) return query(pos*2+1, m+1, pr, l, r);
-        return op(query(pos*2, pl, m, l, r), query(pos*2+1, m+1, pr, l, r));
+        if (l > m) return query(pos*2+1, m+1, pr, l, r);
+        return op(query(pos*2, pl, m, l, m), query(pos*2+1, m+1, pr, m+1, r));
     }
 
   public:
