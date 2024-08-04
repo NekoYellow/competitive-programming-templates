@@ -4,53 +4,53 @@ using namespace std;
 using ll = long long;
 const char nl = '\n';
 
-template <class T>
-struct SegTree {
-    int n, size;
-    vector<T> tree, tag;
-    /* TO FILL IN */
-    const T e = 0;
-    const bool acc = true; // accumulative (add or set on modification)
-    T op(T a, T b) { return a + b; }
-    T pow(T a, int n) { return a * n; }
+template<class T>
+class SegTree {
+    int n;
+    vector<T> t, tag;
+    /* TO FILL IN : op(f(x), f(y)) = f(op(x, y)) */
+    const T e = 0; // op(x, e) = x
+    inline T op(T x, T y) { return max(x, y); }
+    const T id = 0; // f(x, id) does nothing
+    inline void f(T &x, T p) { x += p; }
+
+    void pushdown(int k) {
+        if (tag[k] == id) return;
+        f(t[k << 1], tag[k]), f(tag[k << 1], tag[k]);
+        f(t[k << 1 | 1], tag[k]), f(tag[k << 1 | 1], tag[k]);
+        tag[k] = id;
+    }
+    void update(int l, int r, T val, int k, int L, int R) {
+        if (l == L && r == R) {
+            f(t[k], val); f(tag[k], val); return;
+        }
+        pushdown(k);
+        int M = (L + R) >> 1;
+        if (r <= M) update(l, r, val, k << 1, L, M);
+        else if (l > M) update(l, r, val, k << 1 | 1, M+1, R);
+        else update(l, M, val, k << 1, L, M),
+             update(M+1, r, val, k << 1 | 1, M+1, R);
+        t[k] = op(t[k << 1], t[k << 1 | 1]);
+    }
+    T query(int l, int r, int k, int L, int R) {
+        if (l == L && r == R) return t[k];
+        pushdown(k);
+        int M = (L + R) >> 1;
+        if (r <= M) return query(l, r, k << 1, L, M);
+        if (l > M) return query(l, r, k << 1 | 1, M+1, R);
+        return op(query(l, M, k << 1, L, M),
+                  query(M+1, r, k << 1 | 1, M+1, R));
+    }
+  public:
     SegTree(int _n) : n(_n) {
-        int i = 1;
-        while (i < n) i <<= 1;
-        size = (i << 1) - 1;
-        tree.assign(size, e); tag.assign(size, e);
+        t.assign((n+1) << 2, e); tag.assign((n+1) << 2, id);
     }
-    void pushdown(int c, int cmin, int cmax) {
-        if (tag[c] == e) return;
-        tree[c] = acc ? op(tree[c], pow(tag[c], cmax - cmin + 1)) : tag[c];
-        if (c < size / 2) {
-            tag[c * 2 + 1] = acc ? op(tag[c * 2 + 1], tag[c]) : tag[c];
-            tag[c * 2 + 2] = acc ? op(tag[c * 2 + 2], tag[c]) : tag[c];
-        }
-        tag[c] = e;
+    void update(int l, int r, T val) {
+        return update(l, r, val, 1, 0, n);
     }
-    void update(int c, int cmin, int cmax, int lo, int hi, T v) {
-        pushdown(c, cmin, cmax);
-        if (cmin >= lo && cmax <= hi) {
-            tag[c] = acc ? op(tag[c], v) : v;
-            pushdown(c, cmin, cmax);
-            return;
-        }
-        if (cmin > hi || cmax < lo) return;
-        int cmid = cmin + (cmax - cmin) / 2;
-        update(c * 2 + 1, cmin, cmid, lo, hi, v);
-        update(c * 2 + 2, cmid + 1, cmax, lo, hi, v);
-        tree[c] = op(tree[c * 2 + 1], tree[c * 2 + 2]);
+    T query(int l, int r) {
+        return query(l, r, 1, 0, n);
     }
-    void update(int lo, int hi, T v) { update(0, 0, size / 2, lo, hi, v); }
-    T query(int c, int cmin, int cmax, int lo, int hi) {
-        pushdown(c, cmin, cmax);
-        if (cmin >= lo && cmax <= hi) return tree[c];
-        if (cmin > hi || cmax < lo) return e;
-        int cmid = cmin + (cmax - cmin) / 2;
-        return op(query(c * 2 + 1, cmin, cmid, lo, hi),
-                query(c * 2 + 2, cmid + 1, cmax, lo, hi));
-    }
-    T query(int lo, int hi) { return query(0, 0, size / 2, lo, hi); }
 };
 
 
