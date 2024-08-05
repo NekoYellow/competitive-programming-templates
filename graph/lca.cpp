@@ -78,8 +78,8 @@ class BinMul { // Answer LCAs Online. $O(n\log n) + O(q\log n)$
     int lca(int u, int v) { // online. answer one query (0-indexed)
         if (dep[u] > dep[v]) swap(u, v);
         int d = dep[v]-dep[u];
-        for (int i = 0; d; i++, d >>= 1) {
-            if (d&1) v = anc[v][i];
+        for (int i = 0; i < B; i++) { // d-th ancestor of v
+            if ((d >> i) & 1) v = anc[v][i];
         }
         if (u == v) return u;
         for (int i = B-1; i > -1; i--) {
@@ -96,7 +96,7 @@ class BinMul { // Answer LCAs Online. $O(n\log n) + O(q\log n)$
     vector<array<int, B>> anc; // ancestor (jump table)
     vector<int> dep;
     void dfs(int u, int p) { // prep
-        anc[u][0] = p; dep[u] = dep[p]+1;
+        anc[u][0] = p; dep[u] = (p == -1 ? 0 : dep[p]+1);
         for (int i = 1; i < B; i++) {
             if (anc[u][i-1] == -1) break;
             anc[u][i] = anc[anc[u][i-1]][i-1];
