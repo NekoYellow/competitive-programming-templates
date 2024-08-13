@@ -7,8 +7,7 @@ struct DSU {
     int nset;
     DSU(int n) {
         par.resize(n); iota(par.begin(), par.end(), 0);
-        nv.assign(n, 1);
-        ne.assign(n, 0);
+        nv.assign(n, 1); ne.assign(n, 0);
         nset = n;
     }
     int find(int x) {
@@ -18,18 +17,11 @@ struct DSU {
     void merge(int x, int y) {
         int rx = find(x), ry = find(y);
         if (rx != ry) {
-            if (nv[rx] < nv[ry]) {
-                par[rx] = ry;
-                nv[ry] += nv[rx];
-                ne[ry] += ne[rx]+1;
-            } else {
-                par[ry] = rx;
-                nv[rx] += nv[ry];
-                ne[rx] += ne[ry]+1;
-            }
+            if (nv[rx] < nv[ry]) swap(rx, ry);
+            par[ry] = rx;
+            nv[rx] += nv[ry]; ne[rx] += ne[ry]+1;
             nset--;
-        }
-        else {
+        } else {
             ne[rx]++;
         }
     }
@@ -44,14 +36,13 @@ struct DSU {
         sz.assign(n, 1);
     }
     int find(int x) {
-        return (x == par[x] ? x : (par[x] = find(par[x])));
+        return x == par[x] ? x : (par[x] = find(par[x]));
     }
     void merge(int x, int y) {
         int rx = find(x), ry = find(y);
-        if (rx != ry) {
-            if (sz[rx] < sz[ry]) par[rx] = ry, sz[ry] += sz[rx];
-            else par[ry] = rx, sz[rx] += sz[ry];
-        }
+        if (rx == ry) return;
+        if (sz[rx] < sz[ry]) swap(rx, ry);
+        par[ry] = rx, sz[rx] += sz[ry];
     }
 };
 
