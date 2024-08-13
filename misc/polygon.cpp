@@ -30,7 +30,7 @@ void polygonize(vector<pt> &v) {
 }
 
 // perimeter
-ld polyP(const vector<pt> &a) { // a: a polygon in ccw order
+ld polyP(const vector<pt> &a) {
     ld peri = 0; assert(a.front() == a.back());
     for (auto it = a.begin(); next(it) != a.end(); it++) {
         pt p = *it, q = *next(it);
@@ -39,7 +39,7 @@ ld polyP(const vector<pt> &a) { // a: a polygon in ccw order
     return peri;
 }
 // longest distance between some pair of points on a convex polygon
-ld polyD(const vector<pt> &a) { // a: a polygon in ccw order
+ld polyD(const vector<pt> &a) {
     ll d2 = 0; assert(a.front() == a.back());
     for (auto it = a.begin(), it2 = next(it); next(it) != a.end(); it++) {
         pt p = *it, q = *next(it);
@@ -50,7 +50,7 @@ ld polyD(const vector<pt> &a) { // a: a polygon in ccw order
             ll nsz = abs(cross(p - nxt, q - nxt));
             if (sz > nsz) break;
         }
-    }
+    } // rotating calipers
     return sqrtl(d2);
 }
 
