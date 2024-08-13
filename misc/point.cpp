@@ -6,8 +6,8 @@ using namespace std;
 
 using pt = complex<int>;
 
-bool left(pt p) {
-    return real(p) < 0 || (real(p) == 0 && imag(p) < 0);
+bool above(pt p) {
+    return imag(p) > 0 || (imag(p) == 0 && real(p) > 0);
 }
 int dot(pt a, pt b) { // dot product
     return real(conj(a)*b);
@@ -44,9 +44,8 @@ int main(){
         cout << "Y\n";
         return 0;
     }
-    // sort by angular direction (starting from -y axis)
     sort(begin(dirs), end(dirs), [&](pt a, pt b) {
-        if (left(a) != left(b)) return left(a); // mysterious
+        if (above(a) != above(b)) return above(a);
         return cross(a, b) > 0;
     });
     dirs.push_back(dirs.front());
