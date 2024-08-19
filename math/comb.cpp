@@ -54,40 +54,40 @@ constexpr int P = 998244353;
 using Z = MInt<P>;
 
 struct Comb {
-    int _n;
-    std::vector<Z> _fac, _invfac, _inv;
+    int n;
+    std::vector<Z> vfac, vinvfac, vinv;
 
-    Comb() : _n{0}, _fac{1}, _invfac{1}, _inv{0} {}
+    Comb() : n{0}, vfac{1}, vinvfac{1}, vinv{0} {}
     Comb(int n) : Comb() { init(n); }
 
     void init(int m) {
-        m = std::min(m, P - 1);
-        if (m <= _n) return;
-        _fac.resize(m + 1);
-        _invfac.resize(m + 1);
-        _inv.resize(m + 1);
-        for (int i = _n + 1; i <= m; i++) {
-            _fac[i] = _fac[i - 1] * i;
+        m = min(m, P - 1);
+        if (m <= n) return;
+        vfac.resize(m + 1);
+        vinvfac.resize(m + 1);
+        vinv.resize(m + 1);
+        for (int i = n + 1; i <= m; i++) {
+            vfac[i] = vfac[i - 1] * i;
         }
-        _invfac[m] = _fac[m].inv();
-        for (int i = m; i > _n; i--) {
-            _invfac[i - 1] = _invfac[i] * i;
-            _inv[i] = _invfac[i] * _fac[i - 1];
+        vinvfac[m] = vfac[m].inv();
+        for (int i = m; i > n; i--) {
+            vinvfac[i - 1] = vinvfac[i] * i;
+            vinv[i] = vinvfac[i] * vfac[i - 1];
         }
-        _n = m;
+        n = m;
     }
 
     Z fac(int m) {
-        if (m > _n) init(2 * m);
-        return _fac[m];
+        if (m > n) init(2 * m);
+        return vfac[m];
     }
     Z invfac(int m) {
-        if (m > _n) init(2 * m);
-        return _invfac[m];
+        if (m > n) init(2 * m);
+        return vinvfac[m];
     }
     Z inv(int m) {
-        if (m > _n) init(2 * m);
-        return _inv[m];
+        if (m > n) init(2 * m);
+        return vinv[m];
     }
     Z binom(int n, int m) {
         if (n < m || m < 0) return 0;
