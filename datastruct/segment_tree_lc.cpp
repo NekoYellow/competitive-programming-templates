@@ -11,7 +11,7 @@ struct Line {
     Line() : k(0), b(0), id(0) {}
     Line(int k, int b, int id) : k(k), b(b), id(id) {}
     ll val(int x) { return 1ll * k*x + b; }
-} tr[K][N<<2]; // each node is top K lines
+} tr[N<<2][K]; // each node is top K lines
 
 int m; // range of segtree is [1, m]
 
@@ -22,31 +22,31 @@ bool gt(Line a, Line b, int x) {
     return a.val(x) > b.val(x);
 }
 // insert f(x)=kx+b, 1<=x<=m
-void insert(Line v, int k=1, int l=1, int r=m) {
+void insert(Line v, int u=1, int l=1, int r=m) {
     int mid = (l + r) >> 1;
     for (int i = 0; i < K; i++) {
-        if (gt(v, tr[i][k], mid)) swap(tr[i][k], v);
+        if (gt(v, tr[u][i], mid)) swap(tr[u][i], v);
     }
     bool lf = false, rf = false;
     for (int i = 0; i < K; i++) {
-        if (!lf && gt(v, tr[i][k], l))
-            insert(v, le(k), l, mid), lf = true;
-        if (!rf && gt(v, tr[i][k], r))
-            insert(v, ri(k), mid+1, r), rf = true;
+        if (!lf && gt(v, tr[u][i], l))
+            insert(v, le(u), l, mid), lf = true;
+        if (!rf && gt(v, tr[u][i], r))
+            insert(v, ri(u), mid+1, r), rf = true;
     }
 }
 // query the top k-th line f's that maximizes f(x)
-void query(array<Line, K> &res, int x, int k=1, int l=1, int r=m) {
+void query(array<Line, K> &res, int x, int u=1, int l=1, int r=m) {
     for (int i = 0; i < K; i++) {
-        Line line = tr[i][k];
+        Line line = tr[u][i];
         for (int j = 0; j < K; j++) {
             if (gt(line, res[j], x)) swap(line, res[j]); 
         }
     }
     if (l == r) return;
     int mid = (l + r) >> 1;
-    if (x <= mid) query(res, x, le(k), l, mid);
-    else query(res, x, ri(k), mid+1, r);
+    if (x <= mid) query(res, x, le(u), l, mid);
+    else query(res, x, ri(u), mid+1, r);
 }
 
 void solve() {
