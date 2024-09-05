@@ -2,10 +2,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class ACA { // AC Automaton, minimal ver. Trie + fail tr (KMP on Trie)
+class ACA { // Trie + fail tr (KMP on Trie)
   public:
-    ACA(): t(1), cnt(1), pos(1) {} // same as trie
-    void insert(const string& s) { // Insert a pattern to trie.
+    ACA(): t(1), cnt(1), pos(1) {}
+    void insert(const string& s) {
         int p = 0;
         for (auto c: s) {
             c -= 'a';
@@ -17,7 +17,7 @@ class ACA { // AC Automaton, minimal ver. Trie + fail tr (KMP on Trie)
         }
         cnt[p]++;
     }
-    void build() { // Build the fail tree. Call after all insertions
+    void build() {
         fail.resize(t.size());
         queue<int> q;
         for (int c = 0; c < R; c++) if (t[0][c]) q.push(t[0][c]);
@@ -29,20 +29,21 @@ class ACA { // AC Automaton, minimal ver. Trie + fail tr (KMP on Trie)
             }
         }
     }
-    int query(const string& s) { // Query for a given text s (irrevertable)
+    int query(const string& s) {
         int p = 0, res = 0;
+        map<int, bool> vis;
         for (auto c: s) {
             p = t[p][c - 'a'];
-            for (int i = p; i && ~cnt[i]; i = fail[i])
-                res += cnt[i], cnt[i] = -1;
+            for (int i = p; i && !vis[i]; i = fail[i])
+                res += cnt[i], vis[i] = 1;
         }
-        return res; // #occurence of all the patterns in text
+        return res; // #occ of patterns in s
     }
 
   private:
     static const int R = 26;
     vector<array<int, R>> t; // trie
-    vector<int> cnt, fail; // cnt of this pat, fail transfer
+    vector<int> cnt, fail;
     int pos;
 };
 
