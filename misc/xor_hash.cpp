@@ -1,10 +1,10 @@
 // https://codeforces.com/contest/1996/problem/G
-// XOR Hashing.
+// Zobrist Hashing.
 #include <bits/stdc++.h>
 using namespace std;
 using ul = unsigned long long;
 
-mt19937_64 rng;
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 // Given a loop graph with n nodes, and m pairs required to be
 // accessible from one to another, find the minimum edges needed
 void solve() {
