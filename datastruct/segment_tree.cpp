@@ -61,9 +61,8 @@ template<class T>
 class SegTree {
     int n;
     vector<T> t;
-    /* TO FILL IN */
-    const T e = 0; // identity of op
-    T op(T a, T b) { return max(a, b); }
+    const T e; // identity of op
+    const function<T(T, T)> op;
 
     void update(int pos, int pl, int pr, int i, T val) {
         if (pl == pr) {
@@ -86,7 +85,7 @@ class SegTree {
     }
 
   public:
-    SegTree(int _n) : n(_n) {
+    SegTree(int _n, T _e, function<T(T, T)> _op) : n(_n), e(_e), op(_op) {
         t.assign(_n*4, e);
     }
     void update(int i, T val) {
@@ -107,7 +106,7 @@ int main() {
 
     int n, q;
     cin >> n >> q;
-    SegTree<ll> st(n);
+    SegTree<ll> st(n, 0, [](ll x, ll y){return max(x, y)});
     for (int i = 0; i < n; i++) {
         int a;
         cin >> a;

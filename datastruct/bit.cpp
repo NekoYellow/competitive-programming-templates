@@ -8,14 +8,13 @@ template <class T>
 struct BIT { // Fenwick, 0-indexed
     int n;
     vector<T> tree;
-    /* TO FILL IN */
-    const T e = 0;
-    T op(T a, T b) { return a + b; }
+    const T e;
+    const function<T(T, T)> op;
 
-    BIT(int _n) : n(_n) {
+    BIT(int _n, T _e, function<T(T, T)> _op) : n(_n), e(_e), op(_op) {
         tree.assign(n, e);
     }
-    BIT(const vector<T>& _a) : n(_a.size()) {
+    BIT(const vector<T>& _a, T _e, function<T(T, T)> _op) : n(_a.size()), e(_e), op(_op) {
         tree.assign(n, e);
         for (int i = 0; i < n; i++) {
             tree[i] = op(tree[i], _a[i]);
@@ -69,7 +68,7 @@ signed main() {
     for (auto &e: a)
         cin >> e;
 
-    BIT<ll> tree(a);
+    BIT<ll> tree(a, 0, [](ll x, ll y){return x+y;});
 
     while (q--) {
         int type;
