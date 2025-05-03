@@ -75,27 +75,19 @@ class SegTree { // 1-indexed
 template <class T>
 class HPD { // 1-indexed
   public:
-    HPD(int _n, int _r, SegTree<T> _sgt): n(_n), root(_r), sgt(_sgt), e(_sgt.e), op(_sgt.op) {
-        g.resize(n+1);
-        par.assign(n+1, 0);
-        hson.assign(n+1, 0);
-        sz.assign(n+1, 0);
-        dep.assign(n+1, 0);
-        top.assign(n+1, 0);
-        dfn.assign(n+1, 0);
-    }
-
+    HPD(int _n, int _r, SegTree<T> _sgt):
+        n(_n), root(_r), sgt(_sgt), e(_sgt.e), op(_sgt.op),
+        g(_n+1), par(_n+1), hson(_n+1), sz(_n+1),
+        dep(_n+1), top(_n+1), dfn(_n+1) {}
     void addedge(int u, int v) { // before init
         g[u].push_back(v);
         g[v].push_back(u);
     }
-
     void init() {
         tree_build(root);
         ord = 0;
         tree_decompose(root, root);
     }
-
     void update(int u, int v, T x) { // after init
         for (int fu = top[u], fv = top[v]; fu != fv; fu = top[u], fv = top[v]) {
             if (dep[fu] >= dep[fv])
@@ -105,11 +97,9 @@ class HPD { // 1-indexed
         }
         sgt.update(min(dfn[u], dfn[v]), max(dfn[u], dfn[v]), x);
     }
-
     void update(int u, T x) {
         sgt.update(dfn[u], dfn[u]+sz[u]-1, x);
     }
-
     T query(int u, int v) {
         T res = e;
         for (int fu = top[u], fv = top[v]; fu != fv; fu = top[u], fv = top[v]) {
@@ -121,7 +111,6 @@ class HPD { // 1-indexed
         res = op(res, sgt.query(min(dfn[u], dfn[v]), max(dfn[u], dfn[v])));
         return res;
     }
-
     T query(int u) {
         return sgt.query(dfn[u], dfn[u]+sz[u]-1);
     }
@@ -146,7 +135,6 @@ class HPD { // 1-indexed
             if (sz[v] > sz[hson[u]]) hson[u] = v;
         }
     }
-
     void tree_decompose(int u, int tp) {
         top[u] = tp;
         dfn[u] = ++ord;
